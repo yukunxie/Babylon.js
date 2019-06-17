@@ -36,3 +36,4 @@ export * from "./Sprites/index";
 export * from "./States/index";
 export * from "./Misc/index";
 export * from "./types";
+export * from "./Inputs/inputHub";
