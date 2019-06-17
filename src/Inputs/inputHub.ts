@@ -2,7 +2,7 @@ import { Scene, IDisposable } from '../scene';
 import { Engine } from '../Engines/engine';
 import { Nullable } from '../types';
 import { Observer, Observable } from '../Misc/observable';
-import { KeyboardInfo } from '../Events/keyboardEvents';
+import { KeyboardInfo, KeyboardEventTypes } from '../Events/keyboardEvents';
 
 /**
  * List of supported devices
@@ -38,6 +38,8 @@ export class InputHubKeyboardEventTrigger implements IInputHubEventTrigger {
     shiftModifier?: boolean;
     /** Does it require CTRL to be pressed */
     ctrlModifier?: boolean;
+    /** Defines that the even will be raised on key up */
+    released?: boolean;
 }
 
 /** @hidden */
@@ -69,7 +71,11 @@ export class InputHub implements IDisposable {
 
         this._onKeyboardObserver = this._scene.onKeyboardObservable.add(evt => {
             for (var keyboardEvent of this._keyboardEvents) {
-                if (keyboardEvent.trigger.keyCode === evt.event.keyCode) {
+                if (keyboardEvent.trigger.keyCode === evt.event.keyCode && (
+                    !keyboardEvent.trigger.released && evt.type == KeyboardEventTypes.KEYDOWN ||
+                    keyboardEvent.trigger.released && evt.type == KeyboardEventTypes.KEYUP
+                )
+                ) {
                     if (
                         (!keyboardEvent.trigger.altModifier || evt.event.altKey) &&
                         (!keyboardEvent.trigger.shiftModifier || evt.event.shiftKey) &&
