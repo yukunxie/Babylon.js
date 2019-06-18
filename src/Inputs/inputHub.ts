@@ -40,10 +40,14 @@ export class InputHubKeyboardEventTrigger implements IInputHubEventTrigger {
     ctrlModifier?: boolean;
     /** Defines that the even will be raised on key up */
     released?: boolean;
+    /** If sets to false, the modifier must be the left one. If sets to true the modifier must be the right one.
+     *  If unset, both will work
+     */
+    rightModifier?: boolean
 }
 
 /** @hidden */
-class KeyboardEvent {
+class KeyboardHubEvent {
     constructor(public name: string, public trigger: InputHubKeyboardEventTrigger) {
     }
 }
@@ -55,7 +59,9 @@ export class InputHub implements IDisposable {
     private _scene: Scene;
     private _onKeyboardObserver: Nullable<Observer<KeyboardInfo>>;
 
-    private _keyboardEvents: KeyboardEvent[] = [];
+    private _keyboardHubEvents: KeyboardHubEvent[] = [];
+    private _modifierStates: { [key: string]: boolean } = {}
+
 
     /**
      * Observable raised when an event is triggered
@@ -70,23 +76,81 @@ export class InputHub implements IDisposable {
         this._scene = scene!;
 
         this._onKeyboardObserver = this._scene.onKeyboardObservable.add(evt => {
-            for (var keyboardEvent of this._keyboardEvents) {
-                if (keyboardEvent.trigger.keyCode === evt.event.keyCode && (
-                    !keyboardEvent.trigger.released && evt.type == KeyboardEventTypes.KEYDOWN ||
-                    keyboardEvent.trigger.released && evt.type == KeyboardEventTypes.KEYUP
+            let kbEvent = evt.event;
+            // Shift, Alt, Ctrl
+            switch (kbEvent.keyCode) {
+                case 16:
+                    if (kbEvent.location === 2) {
+                        this._modifierStates["shiftRight"] = evt.type == KeyboardEventTypes.KEYDOWN;
+                    } else {
+                        this._modifierStates["shiftLeft"] = evt.type == KeyboardEventTypes.KEYDOWN;
+                    }
+                    return;
+                case 17:
+                    if (kbEvent.location === 2) {
+                        this._modifierStates["ctrlRight"] = evt.type == KeyboardEventTypes.KEYDOWN;
+                    } else {
+                        this._modifierStates["ctrlLeft"] = evt.type == KeyboardEventTypes.KEYDOWN;
+                    }
+                    return;
+                case 18:
+                    if (kbEvent.location === 2) {
+                        this._modifierStates["altRight"] = evt.type == KeyboardEventTypes.KEYDOWN;
+                    } else {
+                        this._modifierStates["altLeft"] = evt.type == KeyboardEventTypes.KEYDOWN;
+                    }
+                    return;
+            }
+
+            // Regular keys
+            let raisedEvents = [];
+            for (var keyboardEvent of this._keyboardHubEvents) {
+                let trigger = keyboardEvent.trigger;
+                if (trigger.keyCode === kbEvent.keyCode && (
+                    !trigger.released && evt.type == KeyboardEventTypes.KEYDOWN ||
+                    trigger.released && evt.type == KeyboardEventTypes.KEYUP
                 )
                 ) {
-                    if (
-                        (!keyboardEvent.trigger.altModifier || evt.event.altKey) &&
-                        (!keyboardEvent.trigger.shiftModifier || evt.event.shiftKey) &&
-                        (!keyboardEvent.trigger.ctrlModifier || evt.event.ctrlKey)
-                    ) {
-                        // TODO: make sure we do not raise multiple time the same event
-                        this.onEventObservable.notifyObservers(keyboardEvent.name);
+                    if (trigger.altModifier) {
+                        if (!this._checkKeyModifier("alt", trigger, kbEvent)) {
+                            continue;
+                        }
                     }
+                    if (trigger.shiftModifier) {
+                        if (!this._checkKeyModifier("shift", trigger, kbEvent)) {
+                            continue;
+                        }
+                    }
+                    if (trigger.ctrlModifier) {
+                        if (!this._checkKeyModifier("ctrl", trigger, kbEvent)) {
+                            continue;
+                        }
+                    }
+
+                    if (raisedEvents.indexOf(keyboardEvent.name) !== -1) { // Raise events once per call
+                        continue;
+                    }
+                    raisedEvents.push(keyboardEvent.name);
+                    this.onEventObservable.notifyObservers(keyboardEvent.name);
                 }
             }
         });
+    }
+
+    private _checkKeyModifier(prefix: string, trigger: InputHubKeyboardEventTrigger, keyEvent: any) {
+        if (!keyEvent[prefix + "Key"]) {
+            return false;
+        }
+
+        if (trigger.rightModifier !== undefined) {
+            if (trigger.rightModifier && !this._modifierStates[prefix + "Right"]) {
+                return false;
+            } else if (trigger.rightModifier === false && !this._modifierStates[prefix + "Left"]) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -110,7 +174,7 @@ export class InputHub implements IDisposable {
      * @param trigger defines the trigger that can raise that event
      */
     public addKeyboardEvent(name: string, trigger: InputHubKeyboardEventTrigger) {
-        this._keyboardEvents.push(new KeyboardEvent(name, trigger));
+        this._keyboardHubEvents.push(new KeyboardHubEvent(name, trigger));
     }
 
     /**
