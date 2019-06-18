@@ -3,35 +3,26 @@ import { Engine } from '../Engines/engine';
 import { Nullable } from '../types';
 import { Observer, Observable } from '../Misc/observable';
 import { KeyboardInfo, KeyboardEventTypes } from '../Events/keyboardEvents';
+import { PointerInfo, PointerEventTypes } from '../Events/pointerEvents';
 
 /**
  * List of supported devices
  */
 export enum InputHubDevice {
     /** Keyboard */
-    Keyboard
+    Keyboard,
+    /** Mouse */
+    Mouse
 }
 
 /**
- * Interface used to define an event trigger
+ * Interface used to define a hub trigger
  */
-export interface IInputHubEventTrigger {
+export class IInputHubEventTrigger {
     /**
      * Define the hardware device that will emit the event
      */
-    device: InputHubDevice
-}
-
-/**
- * Class used to represent an event from the keyboard
- */
-export class InputHubKeyboardEventTrigger implements IInputHubEventTrigger {
-    /**
-    * Define the hardware device that will emit the event
-    */
     device: InputHubDevice;
-    /** Key code */
-    keyCode: number;
     /** Does it require ALT to be pressed */
     altModifier?: boolean;
     /** Does it require SHIFT to be pressed */
@@ -43,12 +34,35 @@ export class InputHubKeyboardEventTrigger implements IInputHubEventTrigger {
     /** If sets to false, the modifier must be the left one. If sets to true the modifier must be the right one.
      *  If unset, both will work
      */
-    rightModifier?: boolean
+    rightModifier?: boolean;
 }
+
+/**
+ * Interface used to represent an event from the keyboard
+ */
+export interface IInputHubKeyboardEventTrigger extends IInputHubEventTrigger {
+    /** Key code */
+    keyCode: number;
+}
+
+/**
+ * Interface used to represent an event from the mouse
+ */
+export interface IInputHubMouseEventTrigger extends IInputHubEventTrigger {
+    /** button ID: 0 for left, 1 for middle, 2 for right */
+    button: number;
+}
+
 
 /** @hidden */
 class KeyboardHubEvent {
-    constructor(public name: string, public trigger: InputHubKeyboardEventTrigger) {
+    constructor(public name: string, public trigger: IInputHubKeyboardEventTrigger) {
+    }
+}
+
+/** @hidden */
+class MouseHubEvent {
+    constructor(public name: string, public trigger: IInputHubMouseEventTrigger) {
     }
 }
 
@@ -58,10 +72,11 @@ class KeyboardHubEvent {
 export class InputHub implements IDisposable {
     private _scene: Scene;
     private _onKeyboardObserver: Nullable<Observer<KeyboardInfo>>;
+    private _onPointerObserver: Nullable<Observer<PointerInfo>>;
 
     private _keyboardHubEvents: KeyboardHubEvent[] = [];
+    private _mouseHubEvents: MouseHubEvent[] = [];
     private _modifierStates: { [key: string]: boolean } = {}
-
 
     /**
      * Observable raised when an event is triggered
@@ -75,11 +90,35 @@ export class InputHub implements IDisposable {
     public constructor(scene: Nullable<Scene> = Engine.LastCreatedScene) {
         this._scene = scene!;
 
+        this._onPointerObserver = this._scene.onPointerObservable.add(evt => {
+            let raisedEvents = [];
+            for (var mouseEvent of this._mouseHubEvents) {
+                let trigger = mouseEvent.trigger;
+                if (trigger.button === evt.event.button && (
+                    !trigger.released && evt.type == PointerEventTypes.POINTERDOWN ||
+                    trigger.released && evt.type == PointerEventTypes.POINTERUP
+                )
+                ) {
+                    if (!this._checkModifier(trigger)) {
+                        continue;
+                    }
+
+                    if (raisedEvents.indexOf(mouseEvent.name) !== -1) { // Raise events once per call
+                        continue;
+                    }
+                    raisedEvents.push(mouseEvent.name);
+                    this.onEventObservable.notifyObservers(mouseEvent.name);
+                }
+            }
+        });
+
         this._onKeyboardObserver = this._scene.onKeyboardObservable.add(evt => {
             let kbEvent = evt.event;
             // Shift, Alt, Ctrl
             switch (kbEvent.keyCode) {
                 case 16:
+                    this._modifierStates["shift"] = evt.type == KeyboardEventTypes.KEYDOWN;
+
                     if (kbEvent.location === 2) {
                         this._modifierStates["shiftRight"] = evt.type == KeyboardEventTypes.KEYDOWN;
                     } else {
@@ -87,6 +126,8 @@ export class InputHub implements IDisposable {
                     }
                     return;
                 case 17:
+                    this._modifierStates["ctrl"] = evt.type == KeyboardEventTypes.KEYDOWN;
+
                     if (kbEvent.location === 2) {
                         this._modifierStates["ctrlRight"] = evt.type == KeyboardEventTypes.KEYDOWN;
                     } else {
@@ -94,6 +135,8 @@ export class InputHub implements IDisposable {
                     }
                     return;
                 case 18:
+                    this._modifierStates["alt"] = evt.type == KeyboardEventTypes.KEYDOWN;
+
                     if (kbEvent.location === 2) {
                         this._modifierStates["altRight"] = evt.type == KeyboardEventTypes.KEYDOWN;
                     } else {
@@ -111,20 +154,8 @@ export class InputHub implements IDisposable {
                     trigger.released && evt.type == KeyboardEventTypes.KEYUP
                 )
                 ) {
-                    if (trigger.altModifier) {
-                        if (!this._checkKeyModifier("alt", trigger, kbEvent)) {
-                            continue;
-                        }
-                    }
-                    if (trigger.shiftModifier) {
-                        if (!this._checkKeyModifier("shift", trigger, kbEvent)) {
-                            continue;
-                        }
-                    }
-                    if (trigger.ctrlModifier) {
-                        if (!this._checkKeyModifier("ctrl", trigger, kbEvent)) {
-                            continue;
-                        }
+                    if (!this._checkModifier(trigger)) {
+                        continue;
                     }
 
                     if (raisedEvents.indexOf(keyboardEvent.name) !== -1) { // Raise events once per call
@@ -137,8 +168,29 @@ export class InputHub implements IDisposable {
         });
     }
 
-    private _checkKeyModifier(prefix: string, trigger: InputHubKeyboardEventTrigger, keyEvent: any) {
-        if (!keyEvent[prefix + "Key"]) {
+
+    private _checkModifier(trigger: IInputHubEventTrigger) {
+        if (trigger.altModifier) {
+            if (!this._checkKeyModifier("alt", trigger)) {
+                return false;
+            }
+        }
+        if (trigger.shiftModifier) {
+            if (!this._checkKeyModifier("shift", trigger)) {
+                return false;
+            }
+        }
+        if (trigger.ctrlModifier) {
+            if (!this._checkKeyModifier("ctrl", trigger)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private _checkKeyModifier(prefix: string, trigger: IInputHubEventTrigger) {
+        if (!this._modifierStates[prefix]) {
             return false;
         }
 
@@ -162,7 +214,10 @@ export class InputHub implements IDisposable {
         for (var trigger of triggers) {
             switch (trigger.device) {
                 case InputHubDevice.Keyboard:
-                    this.addKeyboardEvent(name, trigger as InputHubKeyboardEventTrigger);
+                    this.addKeyboardEvent(name, trigger as IInputHubKeyboardEventTrigger);
+                    break;
+                case InputHubDevice.Mouse:
+                    this.addMouseEvent(name, trigger as IInputHubMouseEventTrigger);
                     break;
             }
         }
@@ -173,8 +228,17 @@ export class InputHub implements IDisposable {
      * @param name defines the name of the event to raise
      * @param trigger defines the trigger that can raise that event
      */
-    public addKeyboardEvent(name: string, trigger: InputHubKeyboardEventTrigger) {
+    public addKeyboardEvent(name: string, trigger: IInputHubKeyboardEventTrigger) {
         this._keyboardHubEvents.push(new KeyboardHubEvent(name, trigger));
+    }
+
+    /**
+     * Specifically add an event triggered by a mouse event
+     * @param name defines the name of the event to raise
+     * @param trigger defines the trigger that can raise that event
+     */
+    public addMouseEvent(name: string, trigger: IInputHubMouseEventTrigger) {
+        this._mouseHubEvents.push(new MouseHubEvent(name, trigger));
     }
 
     /**
@@ -184,6 +248,11 @@ export class InputHub implements IDisposable {
         if (this._onKeyboardObserver) {
             this._scene.onKeyboardObservable.remove(this._onKeyboardObserver);
             this._onKeyboardObserver = null;
+        }
+
+        if (this._onPointerObserver) {
+            this._scene.onPointerObservable.remove(this._onPointerObserver);
+            this._onPointerObserver = null;
         }
 
         this.onEventObservable.clear();
