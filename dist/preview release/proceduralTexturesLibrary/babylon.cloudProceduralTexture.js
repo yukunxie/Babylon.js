@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -392,6 +398,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Misc/decorators */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _cloudProceduralTexture_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cloudProceduralTexture.fragment */ "./cloud/cloudProceduralTexture.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -463,6 +470,79 @@ var CloudProceduralTexture = /** @class */ (function (_super) {
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
 
 babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.CloudProceduralTexture"] = CloudProceduralTexture;
+=======
+
+
+
+
+
+
+var CloudProceduralTexture = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(CloudProceduralTexture, _super);
+    function CloudProceduralTexture(name, size, scene, fallbackTexture, generateMipMaps) {
+        var _this = _super.call(this, name, size, "cloudProceduralTexture", scene, fallbackTexture, generateMipMaps) || this;
+        _this._skyColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color4"](0.15, 0.68, 1.0, 1.0);
+        _this._cloudColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color4"](1, 1, 1, 1.0);
+        _this.updateShaderUniforms();
+        return _this;
+    }
+    CloudProceduralTexture.prototype.updateShaderUniforms = function () {
+        this.setColor4("skyColor", this._skyColor);
+        this.setColor4("cloudColor", this._cloudColor);
+    };
+    Object.defineProperty(CloudProceduralTexture.prototype, "skyColor", {
+        get: function () {
+            return this._skyColor;
+        },
+        set: function (value) {
+            this._skyColor = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CloudProceduralTexture.prototype, "cloudColor", {
+        get: function () {
+            return this._cloudColor;
+        },
+        set: function (value) {
+            this._cloudColor = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Serializes this cloud procedural texture
+     * @returns a serialized cloud procedural texture object
+     */
+    CloudProceduralTexture.prototype.serialize = function () {
+        var serializationObject = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Serialize(this, _super.prototype.serialize.call(this));
+        serializationObject.customType = "BABYLON.CloudProceduralTexture";
+        return serializationObject;
+    };
+    /**
+     * Creates a Cloud Procedural Texture from parsed cloud procedural texture data
+     * @param parsedTexture defines parsed texture data
+     * @param scene defines the current scene
+     * @param rootUrl defines the root URL containing cloud procedural texture information
+     * @returns a parsed Cloud Procedural Texture
+     */
+    CloudProceduralTexture.Parse = function (parsedTexture, scene, rootUrl) {
+        var texture = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new CloudProceduralTexture(parsedTexture.name, parsedTexture._size, scene, undefined, parsedTexture._generateMipMaps); }, parsedTexture, scene, rootUrl);
+        return texture;
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor4"])()
+    ], CloudProceduralTexture.prototype, "skyColor", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor4"])()
+    ], CloudProceduralTexture.prototype, "cloudColor", null);
+    return CloudProceduralTexture;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
+
+babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.CloudProceduralTexture"] = CloudProceduralTexture;
+>>>>>>> Stashed changes
 
 
 /***/ }),

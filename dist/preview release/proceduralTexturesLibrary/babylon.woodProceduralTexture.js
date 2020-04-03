@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -438,6 +444,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Misc/decorators */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _woodProceduralTexture_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./woodProceduralTexture.fragment */ "./wood/woodProceduralTexture.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -509,6 +516,79 @@ var WoodProceduralTexture = /** @class */ (function (_super) {
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
 
 babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.WoodProceduralTexture"] = WoodProceduralTexture;
+=======
+
+
+
+
+
+
+var WoodProceduralTexture = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(WoodProceduralTexture, _super);
+    function WoodProceduralTexture(name, size, scene, fallbackTexture, generateMipMaps) {
+        var _this = _super.call(this, name, size, "woodProceduralTexture", scene, fallbackTexture, generateMipMaps) || this;
+        _this._ampScale = 100.0;
+        _this._woodColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.32, 0.17, 0.09);
+        _this.updateShaderUniforms();
+        return _this;
+    }
+    WoodProceduralTexture.prototype.updateShaderUniforms = function () {
+        this.setFloat("ampScale", this._ampScale);
+        this.setColor3("woodColor", this._woodColor);
+    };
+    Object.defineProperty(WoodProceduralTexture.prototype, "ampScale", {
+        get: function () {
+            return this._ampScale;
+        },
+        set: function (value) {
+            this._ampScale = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(WoodProceduralTexture.prototype, "woodColor", {
+        get: function () {
+            return this._woodColor;
+        },
+        set: function (value) {
+            this._woodColor = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Serializes this wood procedural texture
+     * @returns a serialized wood procedural texture object
+     */
+    WoodProceduralTexture.prototype.serialize = function () {
+        var serializationObject = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Serialize(this, _super.prototype.serialize.call(this));
+        serializationObject.customType = "BABYLON.WoodProceduralTexture";
+        return serializationObject;
+    };
+    /**
+     * Creates a Wood Procedural Texture from parsed wood procedural texture data
+     * @param parsedTexture defines parsed texture data
+     * @param scene defines the current scene
+     * @param rootUrl defines the root URL containing wood procedural texture information
+     * @returns a parsed Wood Procedural Texture
+     */
+    WoodProceduralTexture.Parse = function (parsedTexture, scene, rootUrl) {
+        var texture = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new WoodProceduralTexture(parsedTexture.name, parsedTexture._size, scene, undefined, parsedTexture._generateMipMaps); }, parsedTexture, scene, rootUrl);
+        return texture;
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], WoodProceduralTexture.prototype, "ampScale", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], WoodProceduralTexture.prototype, "woodColor", null);
+    return WoodProceduralTexture;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
+
+babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.WoodProceduralTexture"] = WoodProceduralTexture;
+>>>>>>> Stashed changes
 
 
 /***/ }),

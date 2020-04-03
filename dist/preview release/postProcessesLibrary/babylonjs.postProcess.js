@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -371,6 +377,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Misc/decorators */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _asciiart_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./asciiart.fragment */ "./asciiArt/asciiart.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -575,6 +582,212 @@ var AsciiArtPostProcess = /** @class */ (function (_super) {
     return AsciiArtPostProcess;
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PostProcess"]));
 
+=======
+
+
+
+
+
+
+/**
+ * AsciiArtFontTexture is the helper class used to easily create your ascii art font texture.
+ *
+ * It basically takes care rendering the font front the given font size to a texture.
+ * This is used later on in the postprocess.
+ */
+var AsciiArtFontTexture = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(AsciiArtFontTexture, _super);
+    /**
+     * Create a new instance of the Ascii Art FontTexture class
+     * @param name the name of the texture
+     * @param font the font to use, use the W3C CSS notation
+     * @param text the caracter set to use in the rendering.
+     * @param scene the scene that owns the texture
+     */
+    function AsciiArtFontTexture(name, font, text, scene) {
+        if (scene === void 0) { scene = null; }
+        var _this = _super.call(this, scene) || this;
+        scene = _this.getScene();
+        if (!scene) {
+            return _this;
+        }
+        _this.name = name;
+        _this._text == text;
+        _this._font == font;
+        _this.wrapU = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Texture"].CLAMP_ADDRESSMODE;
+        _this.wrapV = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Texture"].CLAMP_ADDRESSMODE;
+        //this.anisotropicFilteringLevel = 1;
+        // Get the font specific info.
+        var maxCharHeight = _this.getFontHeight(font);
+        var maxCharWidth = _this.getFontWidth(font);
+        _this._charSize = Math.max(maxCharHeight.height, maxCharWidth);
+        // This is an approximate size, but should always be able to fit at least the maxCharCount.
+        var textureWidth = Math.ceil(_this._charSize * text.length);
+        var textureHeight = _this._charSize;
+        // Create the texture that will store the font characters.
+        _this._texture = scene.getEngine().createDynamicTexture(textureWidth, textureHeight, false, babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Texture"].NEAREST_SAMPLINGMODE);
+        //scene.getEngine().setclamp
+        var textureSize = _this.getSize();
+        // Create a canvas with the final size: the one matching the texture.
+        var canvas = document.createElement("canvas");
+        canvas.width = textureSize.width;
+        canvas.height = textureSize.height;
+        var context = canvas.getContext("2d");
+        context.textBaseline = "top";
+        context.font = font;
+        context.fillStyle = "white";
+        context.imageSmoothingEnabled = false;
+        // Sets the text in the texture.
+        for (var i = 0; i < text.length; i++) {
+            context.fillText(text[i], i * _this._charSize, -maxCharHeight.offset);
+        }
+        // Flush the text in the dynamic texture.
+        scene.getEngine().updateDynamicTexture(_this._texture, canvas, false, true);
+        return _this;
+    }
+    Object.defineProperty(AsciiArtFontTexture.prototype, "charSize", {
+        /**
+         * Gets the size of one char in the texture (each char fits in size * size space in the texture).
+         */
+        get: function () {
+            return this._charSize;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Gets the max char width of a font.
+     * @param font the font to use, use the W3C CSS notation
+     * @return the max char width
+     */
+    AsciiArtFontTexture.prototype.getFontWidth = function (font) {
+        var fontDraw = document.createElement("canvas");
+        var ctx = fontDraw.getContext('2d');
+        ctx.fillStyle = 'white';
+        ctx.font = font;
+        return ctx.measureText("W").width;
+    };
+    // More info here: https://videlais.com/2014/03/16/the-many-and-varied-problems-with-measuring-font-height-for-html5-canvas/
+    /**
+     * Gets the max char height of a font.
+     * @param font the font to use, use the W3C CSS notation
+     * @return the max char height
+     */
+    AsciiArtFontTexture.prototype.getFontHeight = function (font) {
+        var fontDraw = document.createElement("canvas");
+        var ctx = fontDraw.getContext('2d');
+        ctx.fillRect(0, 0, fontDraw.width, fontDraw.height);
+        ctx.textBaseline = 'top';
+        ctx.fillStyle = 'white';
+        ctx.font = font;
+        ctx.fillText('jH|', 0, 0);
+        var pixels = ctx.getImageData(0, 0, fontDraw.width, fontDraw.height).data;
+        var start = -1;
+        var end = -1;
+        for (var row = 0; row < fontDraw.height; row++) {
+            for (var column = 0; column < fontDraw.width; column++) {
+                var index = (row * fontDraw.width + column) * 4;
+                if (pixels[index] === 0) {
+                    if (column === fontDraw.width - 1 && start !== -1) {
+                        end = row;
+                        row = fontDraw.height;
+                        break;
+                    }
+                    continue;
+                }
+                else {
+                    if (start === -1) {
+                        start = row;
+                    }
+                    break;
+                }
+            }
+        }
+        return { height: (end - start) + 1, offset: start - 1 };
+    };
+    /**
+     * Clones the current AsciiArtTexture.
+     * @return the clone of the texture.
+     */
+    AsciiArtFontTexture.prototype.clone = function () {
+        return new AsciiArtFontTexture(this.name, this._font, this._text, this.getScene());
+    };
+    /**
+     * Parses a json object representing the texture and returns an instance of it.
+     * @param source the source JSON representation
+     * @param scene the scene to create the texture for
+     * @return the parsed texture
+     */
+    AsciiArtFontTexture.Parse = function (source, scene) {
+        var texture = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new AsciiArtFontTexture(source.name, source.font, source.text, scene); }, source, scene, null);
+        return texture;
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("font")
+    ], AsciiArtFontTexture.prototype, "_font", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("text")
+    ], AsciiArtFontTexture.prototype, "_text", void 0);
+    return AsciiArtFontTexture;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["BaseTexture"]));
+
+/**
+ * AsciiArtPostProcess helps rendering everithing in Ascii Art.
+ *
+ * Simmply add it to your scene and let the nerd that lives in you have fun.
+ * Example usage: var pp = new AsciiArtPostProcess("myAscii", "20px Monospace", camera);
+ */
+var AsciiArtPostProcess = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(AsciiArtPostProcess, _super);
+    /**
+     * Instantiates a new Ascii Art Post Process.
+     * @param name the name to give to the postprocess
+     * @camera the camera to apply the post process to.
+     * @param options can either be the font name or an option object following the IAsciiArtPostProcessOptions format
+     */
+    function AsciiArtPostProcess(name, camera, options) {
+        var _this = _super.call(this, name, 'asciiart', ['asciiArtFontInfos', 'asciiArtOptions'], ['asciiArtFont'], {
+            width: camera.getEngine().getRenderWidth(),
+            height: camera.getEngine().getRenderHeight()
+        }, camera, babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Texture"].TRILINEAR_SAMPLINGMODE, camera.getEngine(), true) || this;
+        /**
+         * This defines the amount you want to mix the "tile" or caracter space colored in the ascii art.
+         * This number is defined between 0 and 1;
+         */
+        _this.mixToTile = 0;
+        /**
+         * This defines the amount you want to mix the normal rendering pass in the ascii art.
+         * This number is defined between 0 and 1;
+         */
+        _this.mixToNormal = 0;
+        // Default values.
+        var font = "40px Monospace";
+        var characterSet = " `-.'_:,\"=^;<+!*?/cL\\zrs7TivJtC{3F)Il(xZfY5S2eajo14[nuyE]P6V9kXpKwGhqAUbOd8#HRDB0$mgMW&Q%N@";
+        // Use options.
+        if (options) {
+            if (typeof (options) === "string") {
+                font = options;
+            }
+            else {
+                font = options.font || font;
+                characterSet = options.characterSet || characterSet;
+                _this.mixToTile = options.mixToTile || _this.mixToTile;
+                _this.mixToNormal = options.mixToNormal || _this.mixToNormal;
+            }
+        }
+        _this._asciiArtFontTexture = new AsciiArtFontTexture(name, font, characterSet, camera.getScene());
+        var textureSize = _this._asciiArtFontTexture.getSize();
+        _this.onApply = function (effect) {
+            effect.setTexture("asciiArtFont", _this._asciiArtFontTexture);
+            effect.setFloat4("asciiArtFontInfos", _this._asciiArtFontTexture.charSize, characterSet.length, textureSize.width, textureSize.height);
+            effect.setFloat4("asciiArtOptions", _this.width, _this.height, _this.mixToNormal, _this.mixToTile);
+        };
+        return _this;
+    }
+    return AsciiArtPostProcess;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PostProcess"]));
+
+>>>>>>> Stashed changes
 
 
 /***/ }),
@@ -635,6 +848,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Misc/decorators */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _digitalrain_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./digitalrain.fragment */ "./digitalRain/digitalrain.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -845,6 +1059,218 @@ var DigitalRainPostProcess = /** @class */ (function (_super) {
     return DigitalRainPostProcess;
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PostProcess"]));
 
+=======
+
+
+
+
+
+
+
+/**
+ * DigitalRainFontTexture is the helper class used to easily create your digital rain font texture.
+ *
+ * It basically takes care rendering the font front the given font size to a texture.
+ * This is used later on in the postprocess.
+ */
+var DigitalRainFontTexture = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(DigitalRainFontTexture, _super);
+    /**
+     * Create a new instance of the Digital Rain FontTexture class
+     * @param name the name of the texture
+     * @param font the font to use, use the W3C CSS notation
+     * @param text the caracter set to use in the rendering.
+     * @param scene the scene that owns the texture
+     */
+    function DigitalRainFontTexture(name, font, text, scene) {
+        if (scene === void 0) { scene = null; }
+        var _this = _super.call(this, scene) || this;
+        scene = _this.getScene();
+        if (!scene) {
+            return _this;
+        }
+        _this.name = name;
+        _this._text == text;
+        _this._font == font;
+        _this.wrapU = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Texture"].CLAMP_ADDRESSMODE;
+        _this.wrapV = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Texture"].CLAMP_ADDRESSMODE;
+        // Get the font specific info.
+        var maxCharHeight = _this.getFontHeight(font);
+        var maxCharWidth = _this.getFontWidth(font);
+        _this._charSize = Math.max(maxCharHeight.height, maxCharWidth);
+        // This is an approximate size, but should always be able to fit at least the maxCharCount.
+        var textureWidth = _this._charSize;
+        var textureHeight = Math.ceil(_this._charSize * text.length);
+        // Create the texture that will store the font characters.
+        _this._texture = scene.getEngine().createDynamicTexture(textureWidth, textureHeight, false, babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Texture"].NEAREST_SAMPLINGMODE);
+        //scene.getEngine().setclamp
+        var textureSize = _this.getSize();
+        // Create a canvas with the final size: the one matching the texture.
+        var canvas = document.createElement("canvas");
+        canvas.width = textureSize.width;
+        canvas.height = textureSize.height;
+        var context = canvas.getContext("2d");
+        context.textBaseline = "top";
+        context.font = font;
+        context.fillStyle = "white";
+        context.imageSmoothingEnabled = false;
+        // Sets the text in the texture.
+        for (var i = 0; i < text.length; i++) {
+            context.fillText(text[i], 0, i * _this._charSize - maxCharHeight.offset);
+        }
+        // Flush the text in the dynamic texture.
+        scene.getEngine().updateDynamicTexture(_this._texture, canvas, false, true);
+        return _this;
+    }
+    Object.defineProperty(DigitalRainFontTexture.prototype, "charSize", {
+        /**
+         * Gets the size of one char in the texture (each char fits in size * size space in the texture).
+         */
+        get: function () {
+            return this._charSize;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Gets the max char width of a font.
+     * @param font the font to use, use the W3C CSS notation
+     * @return the max char width
+     */
+    DigitalRainFontTexture.prototype.getFontWidth = function (font) {
+        var fontDraw = document.createElement("canvas");
+        var ctx = fontDraw.getContext('2d');
+        ctx.fillStyle = 'white';
+        ctx.font = font;
+        return ctx.measureText("W").width;
+    };
+    // More info here: https://videlais.com/2014/03/16/the-many-and-varied-problems-with-measuring-font-height-for-html5-canvas/
+    /**
+     * Gets the max char height of a font.
+     * @param font the font to use, use the W3C CSS notation
+     * @return the max char height
+     */
+    DigitalRainFontTexture.prototype.getFontHeight = function (font) {
+        var fontDraw = document.createElement("canvas");
+        var ctx = fontDraw.getContext('2d');
+        ctx.fillRect(0, 0, fontDraw.width, fontDraw.height);
+        ctx.textBaseline = 'top';
+        ctx.fillStyle = 'white';
+        ctx.font = font;
+        ctx.fillText('jH|', 0, 0);
+        var pixels = ctx.getImageData(0, 0, fontDraw.width, fontDraw.height).data;
+        var start = -1;
+        var end = -1;
+        for (var row = 0; row < fontDraw.height; row++) {
+            for (var column = 0; column < fontDraw.width; column++) {
+                var index = (row * fontDraw.width + column) * 4;
+                if (pixels[index] === 0) {
+                    if (column === fontDraw.width - 1 && start !== -1) {
+                        end = row;
+                        row = fontDraw.height;
+                        break;
+                    }
+                    continue;
+                }
+                else {
+                    if (start === -1) {
+                        start = row;
+                    }
+                    break;
+                }
+            }
+        }
+        return { height: (end - start) + 1, offset: start - 1 };
+    };
+    /**
+     * Clones the current DigitalRainFontTexture.
+     * @return the clone of the texture.
+     */
+    DigitalRainFontTexture.prototype.clone = function () {
+        return new DigitalRainFontTexture(this.name, this._font, this._text, this.getScene());
+    };
+    /**
+     * Parses a json object representing the texture and returns an instance of it.
+     * @param source the source JSON representation
+     * @param scene the scene to create the texture for
+     * @return the parsed texture
+     */
+    DigitalRainFontTexture.Parse = function (source, scene) {
+        var texture = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new DigitalRainFontTexture(source.name, source.font, source.text, scene); }, source, scene, null);
+        return texture;
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("font")
+    ], DigitalRainFontTexture.prototype, "_font", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("text")
+    ], DigitalRainFontTexture.prototype, "_text", void 0);
+    return DigitalRainFontTexture;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["BaseTexture"]));
+
+/**
+ * DigitalRainPostProcess helps rendering everithing in digital rain.
+ *
+ * Simmply add it to your scene and let the nerd that lives in you have fun.
+ * Example usage: var pp = new DigitalRainPostProcess("digitalRain", "20px Monospace", camera);
+ */
+var DigitalRainPostProcess = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(DigitalRainPostProcess, _super);
+    /**
+     * Instantiates a new Digital Rain Post Process.
+     * @param name the name to give to the postprocess
+     * @camera the camera to apply the post process to.
+     * @param options can either be the font name or an option object following the IDigitalRainPostProcessOptions format
+     */
+    function DigitalRainPostProcess(name, camera, options) {
+        var _this = _super.call(this, name, 'digitalrain', ['digitalRainFontInfos', 'digitalRainOptions', 'cosTimeZeroOne', 'matrixSpeed'], ['digitalRainFont'], {
+            width: camera.getEngine().getRenderWidth(),
+            height: camera.getEngine().getRenderHeight()
+        }, camera, babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Texture"].TRILINEAR_SAMPLINGMODE, camera.getEngine(), true) || this;
+        /**
+         * This defines the amount you want to mix the "tile" or caracter space colored in the digital rain.
+         * This number is defined between 0 and 1;
+         */
+        _this.mixToTile = 0;
+        /**
+         * This defines the amount you want to mix the normal rendering pass in the digital rain.
+         * This number is defined between 0 and 1;
+         */
+        _this.mixToNormal = 0;
+        // Default values.
+        var font = "15px Monospace";
+        var characterSet = "古池や蛙飛び込む水の音ふるいけやかわずとびこむみずのおと初しぐれ猿も小蓑をほしげ也はつしぐれさるもこみのをほしげなり江戸の雨何石呑んだ時鳥えどのあめなんごくのんだほととぎす";
+        // Use options.
+        if (options) {
+            if (typeof (options) === "string") {
+                font = options;
+            }
+            else {
+                font = options.font || font;
+                _this.mixToTile = options.mixToTile || _this.mixToTile;
+                _this.mixToNormal = options.mixToNormal || _this.mixToNormal;
+            }
+        }
+        _this._digitalRainFontTexture = new DigitalRainFontTexture(name, font, characterSet, camera.getScene());
+        var textureSize = _this._digitalRainFontTexture.getSize();
+        var alpha = 0.0;
+        var cosTimeZeroOne = 0.0;
+        var matrix = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Matrix"].FromValues(Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random());
+        _this.onApply = function (effect) {
+            effect.setTexture("digitalRainFont", _this._digitalRainFontTexture);
+            effect.setFloat4("digitalRainFontInfos", _this._digitalRainFontTexture.charSize, characterSet.length, textureSize.width, textureSize.height);
+            effect.setFloat4("digitalRainOptions", _this.width, _this.height, _this.mixToNormal, _this.mixToTile);
+            effect.setMatrix("matrixSpeed", matrix);
+            alpha += 0.003;
+            cosTimeZeroOne = alpha;
+            effect.setFloat('cosTimeZeroOne', cosTimeZeroOne);
+        };
+        return _this;
+    }
+    return DigitalRainPostProcess;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PostProcess"]));
+
+>>>>>>> Stashed changes
 
 
 /***/ }),
@@ -1010,6 +1436,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Materials/Textures/texture */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _oceanPostProcess_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./oceanPostProcess.fragment */ "./ocean/oceanPostProcess.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -1207,6 +1634,205 @@ var OceanPostProcess = /** @class */ (function (_super) {
     return OceanPostProcess;
 }(babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["PostProcess"]));
 
+=======
+
+
+
+
+
+
+
+/**
+ * OceanPostProcess helps rendering an infinite ocean surface that can reflect and refract environment.
+ *
+ * Simmply add it to your scene and let the nerd that lives in you have fun.
+ * Example usage:
+ *  var pp = new OceanPostProcess("myOcean", camera);
+ *  pp.reflectionEnabled = true;
+ *  pp.refractionEnabled = true;
+ */
+var OceanPostProcess = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(OceanPostProcess, _super);
+    /**
+     * Instantiates a new Ocean Post Process.
+     * @param name the name to give to the postprocess.
+     * @camera the camera to apply the post process to.
+     * @param options optional object following the IOceanPostProcessOptions format used to customize reflection and refraction render targets sizes.
+     */
+    function OceanPostProcess(name, camera, options) {
+        if (options === void 0) { options = {}; }
+        var _this = _super.call(this, name, "oceanPostProcess", ["time", "resolution", "cameraPosition", "cameraRotation"], ["positionSampler", "reflectionSampler", "refractionSampler"], {
+            width: camera.getEngine().getRenderWidth(),
+            height: camera.getEngine().getRenderHeight()
+        }, camera, babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Texture"].TRILINEAR_SAMPLINGMODE, camera.getEngine(), true) || this;
+        _this._time = 0;
+        _this._cameraRotation = babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Vector3"].Zero();
+        _this._cameraViewMatrix = babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Matrix"].Identity();
+        _this._reflectionEnabled = false;
+        _this._refractionEnabled = false;
+        // Get geometry shader
+        _this._geometryRenderer = camera.getScene().enableGeometryBufferRenderer(1.0);
+        if (_this._geometryRenderer && _this._geometryRenderer.isSupported) {
+            // Eanble position buffer
+            _this._geometryRenderer.enablePosition = true;
+            // Create mirror textures
+            _this.reflectionTexture = new babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["MirrorTexture"]("oceanPostProcessReflection", options.reflectionSize || { width: 512, height: 512 }, camera.getScene());
+            _this.reflectionTexture.mirrorPlane = babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Plane"].FromPositionAndNormal(babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Vector3"].Zero(), new babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Vector3"](0, -1, 0));
+            _this.refractionTexture = new babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["RenderTargetTexture"]("oceanPostProcessRefraction", options.refractionSize || { width: 512, height: 512 }, camera.getScene());
+        }
+        else {
+            _this.updateEffect("#define NOT_SUPPORTED\n");
+        }
+        // On apply the post-process
+        _this.onApply = function (effect) {
+            if (!_this._geometryRenderer || !_this._geometryRenderer.isSupported) {
+                return;
+            }
+            var engine = camera.getEngine();
+            var scene = camera.getScene();
+            _this._time += engine.getDeltaTime() * 0.001;
+            effect.setFloat("time", _this._time);
+            effect.setVector2("resolution", new babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Vector2"](engine.getRenderWidth(), engine.getRenderHeight()));
+            if (scene) {
+                // Position
+                effect.setVector3("cameraPosition", camera.globalPosition);
+                // Rotation
+                _this._computeCameraRotation(camera);
+                effect.setVector3("cameraRotation", _this._cameraRotation);
+                // Samplers
+                effect.setTexture("positionSampler", _this._geometryRenderer.getGBuffer().textures[2]);
+                if (_this._reflectionEnabled) {
+                    effect.setTexture("reflectionSampler", _this.reflectionTexture);
+                }
+                if (_this._refractionEnabled) {
+                    effect.setTexture("refractionSampler", _this.refractionTexture);
+                }
+            }
+        };
+        return _this;
+    }
+    Object.defineProperty(OceanPostProcess.prototype, "reflectionEnabled", {
+        /**
+         * Gets a boolean indicating if the real-time reflection is enabled on the ocean.
+         */
+        get: function () {
+            return this._reflectionEnabled;
+        },
+        /**
+         * Sets weither or not the real-time reflection is enabled on the ocean.
+         * Is set to true, the reflection mirror texture will be used as reflection texture.
+         */
+        set: function (enabled) {
+            if (this._reflectionEnabled === enabled) {
+                return;
+            }
+            this._reflectionEnabled = enabled;
+            this.updateEffect(this._getDefines());
+            // Remove or add custom render target
+            var customRenderTargets = this.getCamera().getScene().customRenderTargets;
+            if (!enabled) {
+                var index = customRenderTargets.indexOf(this.reflectionTexture);
+                if (index !== -1) {
+                    customRenderTargets.splice(index, 1);
+                }
+            }
+            else {
+                customRenderTargets.push(this.reflectionTexture);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(OceanPostProcess.prototype, "refractionEnabled", {
+        /**
+         * Gets a boolean indicating if the real-time refraction is enabled on the ocean.
+         */
+        get: function () {
+            return this._refractionEnabled;
+        },
+        /**
+         * Sets weither or not the real-time refraction is enabled on the ocean.
+         * Is set to true, the refraction render target texture will be used as refraction texture.
+         */
+        set: function (enabled) {
+            if (this._refractionEnabled === enabled) {
+                return;
+            }
+            this._refractionEnabled = enabled;
+            this.updateEffect(this._getDefines());
+            // Remove or add custom render target
+            var customRenderTargets = this.getCamera().getScene().customRenderTargets;
+            if (!enabled) {
+                var index = customRenderTargets.indexOf(this.refractionTexture);
+                if (index !== -1) {
+                    customRenderTargets.splice(index, 1);
+                }
+            }
+            else {
+                customRenderTargets.push(this.refractionTexture);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(OceanPostProcess.prototype, "isSupported", {
+        /**
+         * Gets wether or not the post-processes is supported by the running hardware.
+         * This requires draw buffer supports.
+         */
+        get: function () {
+            return this._geometryRenderer !== null && this._geometryRenderer.isSupported;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Returns the appropriate defines according to the current configuration.
+     */
+    OceanPostProcess.prototype._getDefines = function () {
+        var defines = [];
+        if (this._reflectionEnabled) {
+            defines.push("#define REFLECTION_ENABLED");
+        }
+        if (this._refractionEnabled) {
+            defines.push("#define REFRACTION_ENABLED");
+        }
+        return defines.join("\n");
+    };
+    /**
+     * Computes the current camera rotation as the shader requires a camera rotation.
+     */
+    OceanPostProcess.prototype._computeCameraRotation = function (camera) {
+        camera.upVector.normalize();
+        var target = camera.getTarget();
+        camera._initialFocalDistance = target.subtract(camera.position).length();
+        if (camera.position.z === target.z) {
+            camera.position.z += babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Epsilon"];
+        }
+        var direction = target.subtract(camera.position);
+        camera._viewMatrix.invertToRef(this._cameraViewMatrix);
+        this._cameraRotation.x = Math.atan(this._cameraViewMatrix.m[6] / this._cameraViewMatrix.m[10]);
+        if (direction.x >= 0.0) {
+            this._cameraRotation.y = (-Math.atan(direction.z / direction.x) + Math.PI / 2.0);
+        }
+        else {
+            this._cameraRotation.y = (-Math.atan(direction.z / direction.x) - Math.PI / 2.0);
+        }
+        this._cameraRotation.z = 0;
+        if (isNaN(this._cameraRotation.x)) {
+            this._cameraRotation.x = 0;
+        }
+        if (isNaN(this._cameraRotation.y)) {
+            this._cameraRotation.y = 0;
+        }
+        if (isNaN(this._cameraRotation.z)) {
+            this._cameraRotation.z = 0;
+        }
+    };
+    return OceanPostProcess;
+}(babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["PostProcess"]));
+
+>>>>>>> Stashed changes
 
 
 /***/ }),

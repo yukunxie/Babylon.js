@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -438,6 +444,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Misc/decorators */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _marbleProceduralTexture_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./marbleProceduralTexture.fragment */ "./marble/marbleProceduralTexture.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -541,6 +548,111 @@ var MarbleProceduralTexture = /** @class */ (function (_super) {
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
 
 babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.MarbleProceduralTexture"] = MarbleProceduralTexture;
+=======
+
+
+
+
+
+
+var MarbleProceduralTexture = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(MarbleProceduralTexture, _super);
+    function MarbleProceduralTexture(name, size, scene, fallbackTexture, generateMipMaps) {
+        var _this = _super.call(this, name, size, "marbleProceduralTexture", scene, fallbackTexture, generateMipMaps) || this;
+        _this._numberOfTilesHeight = 3;
+        _this._numberOfTilesWidth = 3;
+        _this._amplitude = 9.0;
+        _this._jointColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.72, 0.72, 0.72);
+        _this.updateShaderUniforms();
+        return _this;
+    }
+    MarbleProceduralTexture.prototype.updateShaderUniforms = function () {
+        this.setFloat("numberOfTilesHeight", this._numberOfTilesHeight);
+        this.setFloat("numberOfTilesWidth", this._numberOfTilesWidth);
+        this.setFloat("amplitude", this._amplitude);
+        this.setColor3("jointColor", this._jointColor);
+    };
+    Object.defineProperty(MarbleProceduralTexture.prototype, "numberOfTilesHeight", {
+        get: function () {
+            return this._numberOfTilesHeight;
+        },
+        set: function (value) {
+            this._numberOfTilesHeight = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MarbleProceduralTexture.prototype, "amplitude", {
+        get: function () {
+            return this._amplitude;
+        },
+        set: function (value) {
+            this._amplitude = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MarbleProceduralTexture.prototype, "numberOfTilesWidth", {
+        get: function () {
+            return this._numberOfTilesWidth;
+        },
+        set: function (value) {
+            this._numberOfTilesWidth = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MarbleProceduralTexture.prototype, "jointColor", {
+        get: function () {
+            return this._jointColor;
+        },
+        set: function (value) {
+            this._jointColor = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Serializes this marble procedural texture
+     * @returns a serialized marble procedural texture object
+     */
+    MarbleProceduralTexture.prototype.serialize = function () {
+        var serializationObject = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Serialize(this, _super.prototype.serialize.call(this));
+        serializationObject.customType = "BABYLON.MarbleProceduralTexture";
+        return serializationObject;
+    };
+    /**
+     * Creates a Marble Procedural Texture from parsed marble procedural texture data
+     * @param parsedTexture defines parsed texture data
+     * @param scene defines the current scene
+     * @param rootUrl defines the root URL containing marble procedural texture information
+     * @returns a parsed Marble Procedural Texture
+     */
+    MarbleProceduralTexture.Parse = function (parsedTexture, scene, rootUrl) {
+        var texture = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new MarbleProceduralTexture(parsedTexture.name, parsedTexture._size, scene, undefined, parsedTexture._generateMipMaps); }, parsedTexture, scene, rootUrl);
+        return texture;
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], MarbleProceduralTexture.prototype, "numberOfTilesHeight", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], MarbleProceduralTexture.prototype, "amplitude", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], MarbleProceduralTexture.prototype, "numberOfTilesWidth", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], MarbleProceduralTexture.prototype, "jointColor", null);
+    return MarbleProceduralTexture;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
+
+babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.MarbleProceduralTexture"] = MarbleProceduralTexture;
+>>>>>>> Stashed changes
 
 
 /***/ }),

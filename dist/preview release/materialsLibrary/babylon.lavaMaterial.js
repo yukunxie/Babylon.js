@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -454,6 +460,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _lava_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lava.fragment */ "./lava/lava.fragment.ts");
 /* harmony import */ var _lava_vertex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lava.vertex */ "./lava/lava.vertex.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -828,6 +835,384 @@ var LavaMaterial = /** @class */ (function (_super) {
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PushMaterial"]));
 
 babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.LavaMaterial"] = LavaMaterial;
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+var LavaMaterialDefines = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(LavaMaterialDefines, _super);
+    function LavaMaterialDefines() {
+        var _this = _super.call(this) || this;
+        _this.DIFFUSE = false;
+        _this.CLIPPLANE = false;
+        _this.CLIPPLANE2 = false;
+        _this.CLIPPLANE3 = false;
+        _this.CLIPPLANE4 = false;
+        _this.CLIPPLANE5 = false;
+        _this.CLIPPLANE6 = false;
+        _this.ALPHATEST = false;
+        _this.DEPTHPREPASS = false;
+        _this.POINTSIZE = false;
+        _this.FOG = false;
+        _this.LIGHT0 = false;
+        _this.LIGHT1 = false;
+        _this.LIGHT2 = false;
+        _this.LIGHT3 = false;
+        _this.SPOTLIGHT0 = false;
+        _this.SPOTLIGHT1 = false;
+        _this.SPOTLIGHT2 = false;
+        _this.SPOTLIGHT3 = false;
+        _this.HEMILIGHT0 = false;
+        _this.HEMILIGHT1 = false;
+        _this.HEMILIGHT2 = false;
+        _this.HEMILIGHT3 = false;
+        _this.DIRLIGHT0 = false;
+        _this.DIRLIGHT1 = false;
+        _this.DIRLIGHT2 = false;
+        _this.DIRLIGHT3 = false;
+        _this.POINTLIGHT0 = false;
+        _this.POINTLIGHT1 = false;
+        _this.POINTLIGHT2 = false;
+        _this.POINTLIGHT3 = false;
+        _this.SHADOW0 = false;
+        _this.SHADOW1 = false;
+        _this.SHADOW2 = false;
+        _this.SHADOW3 = false;
+        _this.SHADOWS = false;
+        _this.SHADOWESM0 = false;
+        _this.SHADOWESM1 = false;
+        _this.SHADOWESM2 = false;
+        _this.SHADOWESM3 = false;
+        _this.SHADOWPOISSON0 = false;
+        _this.SHADOWPOISSON1 = false;
+        _this.SHADOWPOISSON2 = false;
+        _this.SHADOWPOISSON3 = false;
+        _this.SHADOWPCF0 = false;
+        _this.SHADOWPCF1 = false;
+        _this.SHADOWPCF2 = false;
+        _this.SHADOWPCF3 = false;
+        _this.SHADOWPCSS0 = false;
+        _this.SHADOWPCSS1 = false;
+        _this.SHADOWPCSS2 = false;
+        _this.SHADOWPCSS3 = false;
+        _this.NORMAL = false;
+        _this.UV1 = false;
+        _this.UV2 = false;
+        _this.VERTEXCOLOR = false;
+        _this.VERTEXALPHA = false;
+        _this.NUM_BONE_INFLUENCERS = 0;
+        _this.BonesPerMesh = 0;
+        _this.INSTANCES = false;
+        _this.UNLIT = false;
+        _this.rebuild();
+        return _this;
+    }
+    return LavaMaterialDefines;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialDefines"]));
+var LavaMaterial = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(LavaMaterial, _super);
+    function LavaMaterial(name, scene) {
+        var _this = _super.call(this, name, scene) || this;
+        _this.speed = 1;
+        _this.movingSpeed = 1;
+        _this.lowFrequencySpeed = 1;
+        _this.fogDensity = 0.15;
+        _this._lastTime = 0;
+        _this.diffuseColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](1, 1, 1);
+        _this._disableLighting = false;
+        _this._unlit = false;
+        _this._maxSimultaneousLights = 4;
+        _this._scaledDiffuse = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"]();
+        return _this;
+    }
+    LavaMaterial.prototype.needAlphaBlending = function () {
+        return (this.alpha < 1.0);
+    };
+    LavaMaterial.prototype.needAlphaTesting = function () {
+        return false;
+    };
+    LavaMaterial.prototype.getAlphaTestTexture = function () {
+        return null;
+    };
+    // Methods
+    LavaMaterial.prototype.isReadyForSubMesh = function (mesh, subMesh, useInstances) {
+        if (this.isFrozen) {
+            if (subMesh.effect && subMesh.effect._wasPreviouslyReady) {
+                return true;
+            }
+        }
+        if (!subMesh._materialDefines) {
+            subMesh._materialDefines = new LavaMaterialDefines();
+        }
+        var defines = subMesh._materialDefines;
+        var scene = this.getScene();
+        if (!this.checkReadyOnEveryCall && subMesh.effect) {
+            if (this._renderId === scene.getRenderId()) {
+                return true;
+            }
+        }
+        var engine = scene.getEngine();
+        // Textures
+        if (defines._areTexturesDirty) {
+            defines._needUVs = false;
+            if (scene.texturesEnabled) {
+                if (this._diffuseTexture && babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialFlags"].DiffuseTextureEnabled) {
+                    if (!this._diffuseTexture.isReady()) {
+                        return false;
+                    }
+                    else {
+                        defines._needUVs = true;
+                        defines.DIFFUSE = true;
+                    }
+                }
+            }
+        }
+        // Misc.
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForMisc(mesh, scene, false, this.pointsCloud, this.fogEnabled, this._shouldTurnAlphaTestOn(mesh), defines);
+        // Lights
+        defines._needNormals = true;
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForLights(scene, mesh, defines, false, this._maxSimultaneousLights, this._disableLighting);
+        // Values that need to be evaluated on every frame
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForFrameBoundValues(scene, engine, defines, useInstances ? true : false);
+        // Attribs
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForAttributes(mesh, defines, true, true);
+        // Get correct effect
+        if (defines.isDirty) {
+            defines.markAsProcessed();
+            scene.resetCachedMaterial();
+            // Fallbacks
+            var fallbacks = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["EffectFallbacks"]();
+            if (defines.FOG) {
+                fallbacks.addFallback(1, "FOG");
+            }
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].HandleFallbacksForShadows(defines, fallbacks);
+            if (defines.NUM_BONE_INFLUENCERS > 0) {
+                fallbacks.addCPUSkinningFallback(0, mesh);
+            }
+            //Attributes
+            var attribs = [babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].PositionKind];
+            if (defines.NORMAL) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].NormalKind);
+            }
+            if (defines.UV1) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].UVKind);
+            }
+            if (defines.UV2) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].UV2Kind);
+            }
+            if (defines.VERTEXCOLOR) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].ColorKind);
+            }
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareAttributesForBones(attribs, mesh, defines, fallbacks);
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareAttributesForInstances(attribs, defines);
+            // Legacy browser patch
+            var shaderName = "lava";
+            var join = defines.toString();
+            var uniforms = ["world", "view", "viewProjection", "vEyePosition", "vLightsType", "vDiffuseColor",
+                "vFogInfos", "vFogColor", "pointSize",
+                "vDiffuseInfos",
+                "mBones",
+                "vClipPlane", "vClipPlane2", "vClipPlane3", "vClipPlane4", "vClipPlane5", "vClipPlane6", "diffuseMatrix",
+                "time", "speed", "movingSpeed",
+                "fogColor", "fogDensity", "lowFrequencySpeed"
+            ];
+            var samplers = ["diffuseSampler",
+                "noiseTexture"
+            ];
+            var uniformBuffers = new Array();
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareUniformsAndSamplersList({
+                uniformsNames: uniforms,
+                uniformBuffersNames: uniformBuffers,
+                samplers: samplers,
+                defines: defines,
+                maxSimultaneousLights: this.maxSimultaneousLights
+            });
+            subMesh.setEffect(scene.getEngine().createEffect(shaderName, {
+                attributes: attribs,
+                uniformsNames: uniforms,
+                uniformBuffersNames: uniformBuffers,
+                samplers: samplers,
+                defines: join,
+                fallbacks: fallbacks,
+                onCompiled: this.onCompiled,
+                onError: this.onError,
+                indexParameters: { maxSimultaneousLights: this.maxSimultaneousLights }
+            }, engine), defines);
+        }
+        if (!subMesh.effect || !subMesh.effect.isReady()) {
+            return false;
+        }
+        this._renderId = scene.getRenderId();
+        subMesh.effect._wasPreviouslyReady = true;
+        return true;
+    };
+    LavaMaterial.prototype.bindForSubMesh = function (world, mesh, subMesh) {
+        var scene = this.getScene();
+        var defines = subMesh._materialDefines;
+        if (!defines) {
+            return;
+        }
+        var effect = subMesh.effect;
+        if (!effect) {
+            return;
+        }
+        this._activeEffect = effect;
+        defines.UNLIT = this._unlit;
+        // Matrices
+        this.bindOnlyWorldMatrix(world);
+        this._activeEffect.setMatrix("viewProjection", scene.getTransformMatrix());
+        // Bones
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindBonesParameters(mesh, this._activeEffect);
+        if (this._mustRebind(scene, effect)) {
+            // Textures
+            if (this.diffuseTexture && babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialFlags"].DiffuseTextureEnabled) {
+                this._activeEffect.setTexture("diffuseSampler", this.diffuseTexture);
+                this._activeEffect.setFloat2("vDiffuseInfos", this.diffuseTexture.coordinatesIndex, this.diffuseTexture.level);
+                this._activeEffect.setMatrix("diffuseMatrix", this.diffuseTexture.getTextureMatrix());
+            }
+            if (this.noiseTexture) {
+                this._activeEffect.setTexture("noiseTexture", this.noiseTexture);
+            }
+            // Clip plane
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindClipPlane(this._activeEffect, scene);
+            // Point size
+            if (this.pointsCloud) {
+                this._activeEffect.setFloat("pointSize", this.pointSize);
+            }
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindEyePosition(effect, scene);
+        }
+        this._activeEffect.setColor4("vDiffuseColor", this._scaledDiffuse, this.alpha * mesh.visibility);
+        if (scene.lightsEnabled && !this.disableLighting) {
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindLights(scene, mesh, this._activeEffect, defines);
+        }
+        // View
+        if (scene.fogEnabled && mesh.applyFog && scene.fogMode !== babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Scene"].FOGMODE_NONE) {
+            this._activeEffect.setMatrix("view", scene.getViewMatrix());
+        }
+        // Fog
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindFogParameters(scene, mesh, this._activeEffect);
+        this._lastTime += scene.getEngine().getDeltaTime();
+        this._activeEffect.setFloat("time", this._lastTime * this.speed / 1000);
+        if (!this.fogColor) {
+            this.fogColor = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"].Black();
+        }
+        this._activeEffect.setColor3("fogColor", this.fogColor);
+        this._activeEffect.setFloat("fogDensity", this.fogDensity);
+        this._activeEffect.setFloat("lowFrequencySpeed", this.lowFrequencySpeed);
+        this._activeEffect.setFloat("movingSpeed", this.movingSpeed);
+        this._afterBind(mesh, this._activeEffect);
+    };
+    LavaMaterial.prototype.getAnimatables = function () {
+        var results = [];
+        if (this.diffuseTexture && this.diffuseTexture.animations && this.diffuseTexture.animations.length > 0) {
+            results.push(this.diffuseTexture);
+        }
+        if (this.noiseTexture && this.noiseTexture.animations && this.noiseTexture.animations.length > 0) {
+            results.push(this.noiseTexture);
+        }
+        return results;
+    };
+    LavaMaterial.prototype.getActiveTextures = function () {
+        var activeTextures = _super.prototype.getActiveTextures.call(this);
+        if (this._diffuseTexture) {
+            activeTextures.push(this._diffuseTexture);
+        }
+        return activeTextures;
+    };
+    LavaMaterial.prototype.hasTexture = function (texture) {
+        if (_super.prototype.hasTexture.call(this, texture)) {
+            return true;
+        }
+        if (this.diffuseTexture === texture) {
+            return true;
+        }
+        return false;
+    };
+    LavaMaterial.prototype.dispose = function (forceDisposeEffect) {
+        if (this.diffuseTexture) {
+            this.diffuseTexture.dispose();
+        }
+        if (this.noiseTexture) {
+            this.noiseTexture.dispose();
+        }
+        _super.prototype.dispose.call(this, forceDisposeEffect);
+    };
+    LavaMaterial.prototype.clone = function (name) {
+        var _this = this;
+        return babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Clone(function () { return new LavaMaterial(name, _this.getScene()); }, this);
+    };
+    LavaMaterial.prototype.serialize = function () {
+        var serializationObject = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Serialize(this);
+        serializationObject.customType = "BABYLON.LavaMaterial";
+        return serializationObject;
+    };
+    LavaMaterial.prototype.getClassName = function () {
+        return "LavaMaterial";
+    };
+    // Statics
+    LavaMaterial.Parse = function (source, scene, rootUrl) {
+        return babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new LavaMaterial(source.name, scene); }, source, scene, rootUrl);
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsTexture"])("diffuseTexture")
+    ], LavaMaterial.prototype, "_diffuseTexture", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsTexturesDirty")
+    ], LavaMaterial.prototype, "diffuseTexture", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsTexture"])()
+    ], LavaMaterial.prototype, "noiseTexture", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], LavaMaterial.prototype, "fogColor", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], LavaMaterial.prototype, "speed", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], LavaMaterial.prototype, "movingSpeed", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], LavaMaterial.prototype, "lowFrequencySpeed", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], LavaMaterial.prototype, "fogDensity", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], LavaMaterial.prototype, "diffuseColor", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("disableLighting")
+    ], LavaMaterial.prototype, "_disableLighting", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsLightsDirty")
+    ], LavaMaterial.prototype, "disableLighting", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("unlit")
+    ], LavaMaterial.prototype, "_unlit", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsLightsDirty")
+    ], LavaMaterial.prototype, "unlit", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("maxSimultaneousLights")
+    ], LavaMaterial.prototype, "_maxSimultaneousLights", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsLightsDirty")
+    ], LavaMaterial.prototype, "maxSimultaneousLights", void 0);
+    return LavaMaterial;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PushMaterial"]));
+
+babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.LavaMaterial"] = LavaMaterial;
+>>>>>>> Stashed changes
 
 
 /***/ }),

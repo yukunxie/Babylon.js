@@ -1194,12 +1194,40 @@ export class WebGPUEngine extends Engine {
             const gpuTexture = this._device.createTexture(textureDescriptor);
             texture._webGPUTexture = gpuTexture;
 
-            if (noMipmap) {
-                this._uploadFromWebglTexture(webglEngineTexture, gpuTexture, width, height, -1);
-            }
-            else {
-                this._uploadMipMapsFromWebglTexture(mipMaps, webglEngineTexture, gpuTexture, width, height, -1);
-            }
+            // console.log("xxxxxxxxxxxxxxxx WebGPUEngine.createTexture", textureExtent.width, textureExtent.height, webglEngineTexture.imageData);
+
+            this._uploadFromWebglTexture;
+            this._uploadMipMapsFromWebglTexture;
+
+            const textureDataBuffer = this._device.createBuffer({
+                size: width * height * 4,
+                usage: WebGPUConstants.GPUBufferUsage_TRANSFER_DST | WebGPUConstants.GPUBufferUsage_TRANSFER_SRC,
+            });
+
+            textureDataBuffer.setSubData(0, webglEngineTexture.imageData.getData());
+
+            const rowPitch = Math.ceil(width * 4 / 256) * 256;
+            const commandEncoder = this._device.createCommandEncoder({});
+            commandEncoder.copyBufferToTexture({
+                buffer: textureDataBuffer,
+                rowPitch: rowPitch,
+                imageHeight: 0,
+            }, {
+                texture: gpuTexture,
+            }, {
+                width: width,
+                height: height,
+                depth: 1,
+            });
+
+            this._device.defaultQueue.submit([commandEncoder.finish()]);
+
+            // if (noMipmap) {
+            //     this._uploadFromWebglTexture(webglEngineTexture, gpuTexture, width, height, -1);
+            // }
+            // else {
+            //     this._uploadMipMapsFromWebglTexture(mipMaps, webglEngineTexture, gpuTexture, width, height, -1);
+            // }
 
             texture._webGPUTextureView = gpuTexture.createView();
 
@@ -1275,12 +1303,13 @@ export class WebGPUEngine extends Engine {
 
             const faces = [0, 1, 2, 3, 4, 5];
             for (let face of faces) {
-                if (noMipmap) {
-                    this._uploadFromWebglTexture(webglEngineTexture, gpuTexture, width, height, face);
-                }
-                else {
-                    this._uploadMipMapsFromWebglTexture(mipMaps, webglEngineTexture, gpuTexture, width, height, face);
-                }
+                console.log("xxxxxxxxxxx webgpu createCubeTexture ", face, webglEngineTexture.width, webglEngineTexture.height);
+                // if (noMipmap) {
+                //     this._uploadFromWebglTexture(webglEngineTexture, gpuTexture, width, height, face);
+                // }
+                // else {
+                //     this._uploadMipMapsFromWebglTexture(mipMaps, webglEngineTexture, gpuTexture, width, height, face);
+                // }
             }
             texture._webGPUTextureView = gpuTexture.createView({
                 arrayLayerCount: 6,

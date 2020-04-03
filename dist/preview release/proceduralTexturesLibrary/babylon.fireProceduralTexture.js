@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -392,6 +398,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Misc/decorators */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _fireProceduralTexture_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fireProceduralTexture.fragment */ "./fire/fireProceduralTexture.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -584,6 +591,200 @@ var FireProceduralTexture = /** @class */ (function (_super) {
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
 
 babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.FireProceduralTexture"] = FireProceduralTexture;
+=======
+
+
+
+
+
+
+var FireProceduralTexture = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(FireProceduralTexture, _super);
+    function FireProceduralTexture(name, size, scene, fallbackTexture, generateMipMaps) {
+        var _this = _super.call(this, name, size, "fireProceduralTexture", scene, fallbackTexture, generateMipMaps) || this;
+        _this._time = 0.0;
+        _this._speed = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Vector2"](0.5, 0.3);
+        _this._autoGenerateTime = true;
+        _this._alphaThreshold = 0.5;
+        _this._fireColors = FireProceduralTexture.RedFireColors;
+        _this.updateShaderUniforms();
+        return _this;
+    }
+    FireProceduralTexture.prototype.updateShaderUniforms = function () {
+        this.setFloat("time", this._time);
+        this.setVector2("speed", this._speed);
+        this.setColor3("c1", this._fireColors[0]);
+        this.setColor3("c2", this._fireColors[1]);
+        this.setColor3("c3", this._fireColors[2]);
+        this.setColor3("c4", this._fireColors[3]);
+        this.setColor3("c5", this._fireColors[4]);
+        this.setColor3("c6", this._fireColors[5]);
+        this.setFloat("alphaThreshold", this._alphaThreshold);
+    };
+    FireProceduralTexture.prototype.render = function (useCameraPostProcess) {
+        var scene = this.getScene();
+        if (this._autoGenerateTime && scene) {
+            this._time += scene.getAnimationRatio() * 0.03;
+            this.updateShaderUniforms();
+        }
+        _super.prototype.render.call(this, useCameraPostProcess);
+    };
+    Object.defineProperty(FireProceduralTexture, "PurpleFireColors", {
+        get: function () {
+            return [
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.5, 0.0, 1.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.9, 0.0, 1.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.2, 0.0, 1.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](1.0, 0.9, 1.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.1, 0.1, 1.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.9, 0.9, 1.0)
+            ];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FireProceduralTexture, "GreenFireColors", {
+        get: function () {
+            return [
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.5, 1.0, 0.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.5, 1.0, 0.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.3, 0.4, 0.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.5, 1.0, 0.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.2, 0.0, 0.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.5, 1.0, 0.0)
+            ];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FireProceduralTexture, "RedFireColors", {
+        get: function () {
+            return [
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.5, 0.0, 0.1),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.9, 0.0, 0.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.2, 0.0, 0.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](1.0, 0.9, 0.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.1, 0.1, 0.1),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.9, 0.9, 0.9)
+            ];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FireProceduralTexture, "BlueFireColors", {
+        get: function () {
+            return [
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.1, 0.0, 0.5),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.0, 0.0, 0.5),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.1, 0.0, 0.2),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.0, 0.0, 1.0),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.1, 0.2, 0.3),
+                new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.0, 0.2, 0.9)
+            ];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FireProceduralTexture.prototype, "autoGenerateTime", {
+        get: function () {
+            return this._autoGenerateTime;
+        },
+        set: function (value) {
+            this._autoGenerateTime = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FireProceduralTexture.prototype, "fireColors", {
+        get: function () {
+            return this._fireColors;
+        },
+        set: function (value) {
+            this._fireColors = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FireProceduralTexture.prototype, "time", {
+        get: function () {
+            return this._time;
+        },
+        set: function (value) {
+            this._time = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FireProceduralTexture.prototype, "speed", {
+        get: function () {
+            return this._speed;
+        },
+        set: function (value) {
+            this._speed = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FireProceduralTexture.prototype, "alphaThreshold", {
+        get: function () {
+            return this._alphaThreshold;
+        },
+        set: function (value) {
+            this._alphaThreshold = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Serializes this fire procedural texture
+     * @returns a serialized fire procedural texture object
+     */
+    FireProceduralTexture.prototype.serialize = function () {
+        var serializationObject = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Serialize(this, _super.prototype.serialize.call(this));
+        serializationObject.customType = "BABYLON.FireProceduralTexture";
+        serializationObject.fireColors = [];
+        for (var i = 0; i < this._fireColors.length; i++) {
+            serializationObject.fireColors.push(this._fireColors[i].asArray());
+        }
+        return serializationObject;
+    };
+    /**
+     * Creates a Fire Procedural Texture from parsed fire procedural texture data
+     * @param parsedTexture defines parsed texture data
+     * @param scene defines the current scene
+     * @param rootUrl defines the root URL containing fire procedural texture information
+     * @returns a parsed Fire Procedural Texture
+     */
+    FireProceduralTexture.Parse = function (parsedTexture, scene, rootUrl) {
+        var texture = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new FireProceduralTexture(parsedTexture.name, parsedTexture._size, scene, undefined, parsedTexture._generateMipMaps); }, parsedTexture, scene, rootUrl);
+        var colors = [];
+        for (var i = 0; i < parsedTexture.fireColors.length; i++) {
+            colors.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"].FromArray(parsedTexture.fireColors[i]));
+        }
+        texture.fireColors = colors;
+        return texture;
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], FireProceduralTexture.prototype, "autoGenerateTime", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], FireProceduralTexture.prototype, "time", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsVector2"])()
+    ], FireProceduralTexture.prototype, "speed", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], FireProceduralTexture.prototype, "alphaThreshold", null);
+    return FireProceduralTexture;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
+
+babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.FireProceduralTexture"] = FireProceduralTexture;
+>>>>>>> Stashed changes
 
 
 /***/ }),

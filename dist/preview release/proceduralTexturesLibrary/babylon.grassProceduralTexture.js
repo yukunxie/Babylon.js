@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -392,6 +398,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Misc/decorators */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _grassProceduralTexture_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./grassProceduralTexture.fragment */ "./grass/grassProceduralTexture.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -475,6 +482,91 @@ var GrassProceduralTexture = /** @class */ (function (_super) {
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
 
 babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.GrassProceduralTexture"] = GrassProceduralTexture;
+=======
+
+
+
+
+
+
+var GrassProceduralTexture = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(GrassProceduralTexture, _super);
+    function GrassProceduralTexture(name, size, scene, fallbackTexture, generateMipMaps) {
+        var _this = _super.call(this, name, size, "grassProceduralTexture", scene, fallbackTexture, generateMipMaps) || this;
+        _this._groundColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](1, 1, 1);
+        _this._grassColors = [
+            new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.29, 0.38, 0.02),
+            new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.36, 0.49, 0.09),
+            new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.51, 0.6, 0.28)
+        ];
+        _this.updateShaderUniforms();
+        return _this;
+    }
+    GrassProceduralTexture.prototype.updateShaderUniforms = function () {
+        this.setColor3("herb1Color", this._grassColors[0]);
+        this.setColor3("herb2Color", this._grassColors[1]);
+        this.setColor3("herb3Color", this._grassColors[2]);
+        this.setColor3("groundColor", this._groundColor);
+    };
+    Object.defineProperty(GrassProceduralTexture.prototype, "grassColors", {
+        get: function () {
+            return this._grassColors;
+        },
+        set: function (value) {
+            this._grassColors = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GrassProceduralTexture.prototype, "groundColor", {
+        get: function () {
+            return this._groundColor;
+        },
+        set: function (value) {
+            this._groundColor = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Serializes this grass procedural texture
+     * @returns a serialized grass procedural texture object
+     */
+    GrassProceduralTexture.prototype.serialize = function () {
+        var serializationObject = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Serialize(this, _super.prototype.serialize.call(this));
+        serializationObject.customType = "BABYLON.GrassProceduralTexture";
+        serializationObject.grassColors = [];
+        for (var i = 0; i < this._grassColors.length; i++) {
+            serializationObject.grassColors.push(this._grassColors[i].asArray());
+        }
+        return serializationObject;
+    };
+    /**
+     * Creates a Grass Procedural Texture from parsed grass procedural texture data
+     * @param parsedTexture defines parsed texture data
+     * @param scene defines the current scene
+     * @param rootUrl defines the root URL containing grass procedural texture information
+     * @returns a parsed Grass Procedural Texture
+     */
+    GrassProceduralTexture.Parse = function (parsedTexture, scene, rootUrl) {
+        var texture = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new GrassProceduralTexture(parsedTexture.name, parsedTexture._size, scene, undefined, parsedTexture._generateMipMaps); }, parsedTexture, scene, rootUrl);
+        var colors = [];
+        for (var i = 0; i < parsedTexture.grassColors.length; i++) {
+            colors.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"].FromArray(parsedTexture.grassColors[i]));
+        }
+        texture.grassColors = colors;
+        return texture;
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], GrassProceduralTexture.prototype, "groundColor", null);
+    return GrassProceduralTexture;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
+
+babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.GrassProceduralTexture"] = GrassProceduralTexture;
+>>>>>>> Stashed changes
 
 
 /***/ }),

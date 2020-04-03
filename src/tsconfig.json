@@ -3,6 +3,9 @@
     "compilerOptions": {
         "types": [],
         "baseUrl": "./",
-        "rootDir": "./"
+        "rootDir": "./",
+        "noUnusedParameters": false,
+        "noUnusedLocals": false,
+        "suppressExcessPropertyErrors" : true
     }
 }

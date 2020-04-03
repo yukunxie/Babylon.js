@@ -78,6 +78,7 @@ interface WebGLRenderingContext {
 }
 
 interface ImageBitmap {
+    readonly _data: Uint8Array;
     readonly width: number;
     readonly height: number;
     close(): void;

@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -437,6 +443,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _gradient_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./gradient.fragment */ "./gradient/gradient.fragment.ts");
 /* harmony import */ var _gradient_vertex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./gradient.vertex */ "./gradient/gradient.vertex.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -692,6 +699,265 @@ var GradientMaterial = /** @class */ (function (_super) {
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PushMaterial"]));
 
 babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.GradientMaterial"] = GradientMaterial;
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+var GradientMaterialDefines = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(GradientMaterialDefines, _super);
+    function GradientMaterialDefines() {
+        var _this = _super.call(this) || this;
+        _this.EMISSIVE = false;
+        _this.CLIPPLANE = false;
+        _this.CLIPPLANE2 = false;
+        _this.CLIPPLANE3 = false;
+        _this.CLIPPLANE4 = false;
+        _this.CLIPPLANE5 = false;
+        _this.CLIPPLANE6 = false;
+        _this.ALPHATEST = false;
+        _this.DEPTHPREPASS = false;
+        _this.POINTSIZE = false;
+        _this.FOG = false;
+        _this.NORMAL = false;
+        _this.UV1 = false;
+        _this.UV2 = false;
+        _this.VERTEXCOLOR = false;
+        _this.VERTEXALPHA = false;
+        _this.NUM_BONE_INFLUENCERS = 0;
+        _this.BonesPerMesh = 0;
+        _this.INSTANCES = false;
+        _this.rebuild();
+        return _this;
+    }
+    return GradientMaterialDefines;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialDefines"]));
+var GradientMaterial = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(GradientMaterial, _super);
+    function GradientMaterial(name, scene) {
+        var _this = _super.call(this, name, scene) || this;
+        _this._maxSimultaneousLights = 4;
+        // The gradient top color, red by default
+        _this.topColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](1, 0, 0);
+        _this.topColorAlpha = 1.0;
+        // The gradient top color, blue by default
+        _this.bottomColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0, 0, 1);
+        _this.bottomColorAlpha = 1.0;
+        // Gradient offset
+        _this.offset = 0;
+        _this.scale = 1.0;
+        _this.smoothness = 1.0;
+        _this._disableLighting = false;
+        return _this;
+    }
+    GradientMaterial.prototype.needAlphaBlending = function () {
+        return (this.alpha < 1.0 || this.topColorAlpha < 1.0 || this.bottomColorAlpha < 1.0);
+    };
+    GradientMaterial.prototype.needAlphaTesting = function () {
+        return true;
+    };
+    GradientMaterial.prototype.getAlphaTestTexture = function () {
+        return null;
+    };
+    // Methods
+    GradientMaterial.prototype.isReadyForSubMesh = function (mesh, subMesh, useInstances) {
+        if (this.isFrozen) {
+            if (subMesh.effect && subMesh.effect._wasPreviouslyReady) {
+                return true;
+            }
+        }
+        if (!subMesh._materialDefines) {
+            subMesh._materialDefines = new GradientMaterialDefines();
+        }
+        var defines = subMesh._materialDefines;
+        var scene = this.getScene();
+        if (!this.checkReadyOnEveryCall && subMesh.effect) {
+            if (this._renderId === scene.getRenderId()) {
+                return true;
+            }
+        }
+        var engine = scene.getEngine();
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForFrameBoundValues(scene, engine, defines, useInstances ? true : false);
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForMisc(mesh, scene, false, this.pointsCloud, this.fogEnabled, this._shouldTurnAlphaTestOn(mesh), defines);
+        defines._needNormals = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForLights(scene, mesh, defines, false, this._maxSimultaneousLights, this._disableLighting);
+        defines.EMISSIVE = this._disableLighting;
+        // Attribs
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForAttributes(mesh, defines, false, true);
+        // Get correct effect
+        if (defines.isDirty) {
+            defines.markAsProcessed();
+            scene.resetCachedMaterial();
+            // Fallbacks
+            var fallbacks = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["EffectFallbacks"]();
+            if (defines.FOG) {
+                fallbacks.addFallback(1, "FOG");
+            }
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].HandleFallbacksForShadows(defines, fallbacks);
+            if (defines.NUM_BONE_INFLUENCERS > 0) {
+                fallbacks.addCPUSkinningFallback(0, mesh);
+            }
+            //Attributes
+            var attribs = [babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].PositionKind];
+            if (defines.NORMAL) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].NormalKind);
+            }
+            if (defines.UV1) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].UVKind);
+            }
+            if (defines.UV2) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].UV2Kind);
+            }
+            if (defines.VERTEXCOLOR) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].ColorKind);
+            }
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareAttributesForBones(attribs, mesh, defines, fallbacks);
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareAttributesForInstances(attribs, defines);
+            // Legacy browser patch
+            var shaderName = "gradient";
+            var join = defines.toString();
+            var uniforms = ["world", "view", "viewProjection", "vEyePosition", "vLightsType",
+                "vFogInfos", "vFogColor", "pointSize",
+                "mBones",
+                "vClipPlane", "vClipPlane2", "vClipPlane3", "vClipPlane4", "vClipPlane5", "vClipPlane6",
+                "topColor", "bottomColor", "offset", "smoothness", "scale"
+            ];
+            var samplers = [];
+            var uniformBuffers = new Array();
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareUniformsAndSamplersList({
+                uniformsNames: uniforms,
+                uniformBuffersNames: uniformBuffers,
+                samplers: samplers,
+                defines: defines,
+                maxSimultaneousLights: 4
+            });
+            subMesh.setEffect(scene.getEngine().createEffect(shaderName, {
+                attributes: attribs,
+                uniformsNames: uniforms,
+                uniformBuffersNames: uniformBuffers,
+                samplers: samplers,
+                defines: join,
+                fallbacks: fallbacks,
+                onCompiled: this.onCompiled,
+                onError: this.onError,
+                indexParameters: { maxSimultaneousLights: 4 }
+            }, engine), defines);
+        }
+        if (!subMesh.effect || !subMesh.effect.isReady()) {
+            return false;
+        }
+        this._renderId = scene.getRenderId();
+        subMesh.effect._wasPreviouslyReady = true;
+        return true;
+    };
+    GradientMaterial.prototype.bindForSubMesh = function (world, mesh, subMesh) {
+        var scene = this.getScene();
+        var defines = subMesh._materialDefines;
+        if (!defines) {
+            return;
+        }
+        var effect = subMesh.effect;
+        if (!effect) {
+            return;
+        }
+        this._activeEffect = effect;
+        // Matrices
+        this.bindOnlyWorldMatrix(world);
+        this._activeEffect.setMatrix("viewProjection", scene.getTransformMatrix());
+        // Bones
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindBonesParameters(mesh, effect);
+        if (this._mustRebind(scene, effect)) {
+            // Clip plane
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindClipPlane(effect, scene);
+            // Point size
+            if (this.pointsCloud) {
+                this._activeEffect.setFloat("pointSize", this.pointSize);
+            }
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindEyePosition(effect, scene);
+        }
+        if (scene.lightsEnabled && !this.disableLighting) {
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindLights(scene, mesh, this._activeEffect, defines, this.maxSimultaneousLights);
+        }
+        // View
+        if (scene.fogEnabled && mesh.applyFog && scene.fogMode !== babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Scene"].FOGMODE_NONE) {
+            this._activeEffect.setMatrix("view", scene.getViewMatrix());
+        }
+        // Fog
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindFogParameters(scene, mesh, this._activeEffect);
+        this._activeEffect.setColor4("topColor", this.topColor, this.topColorAlpha);
+        this._activeEffect.setColor4("bottomColor", this.bottomColor, this.bottomColorAlpha);
+        this._activeEffect.setFloat("offset", this.offset);
+        this._activeEffect.setFloat("scale", this.scale);
+        this._activeEffect.setFloat("smoothness", this.smoothness);
+        this._afterBind(mesh, this._activeEffect);
+    };
+    GradientMaterial.prototype.getAnimatables = function () {
+        return [];
+    };
+    GradientMaterial.prototype.dispose = function (forceDisposeEffect) {
+        _super.prototype.dispose.call(this, forceDisposeEffect);
+    };
+    GradientMaterial.prototype.clone = function (name) {
+        var _this = this;
+        return babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Clone(function () { return new GradientMaterial(name, _this.getScene()); }, this);
+    };
+    GradientMaterial.prototype.serialize = function () {
+        var serializationObject = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Serialize(this);
+        serializationObject.customType = "BABYLON.GradientMaterial";
+        return serializationObject;
+    };
+    GradientMaterial.prototype.getClassName = function () {
+        return "GradientMaterial";
+    };
+    // Statics
+    GradientMaterial.Parse = function (source, scene, rootUrl) {
+        return babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new GradientMaterial(source.name, scene); }, source, scene, rootUrl);
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("maxSimultaneousLights")
+    ], GradientMaterial.prototype, "_maxSimultaneousLights", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsLightsDirty")
+    ], GradientMaterial.prototype, "maxSimultaneousLights", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], GradientMaterial.prototype, "topColor", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], GradientMaterial.prototype, "topColorAlpha", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], GradientMaterial.prototype, "bottomColor", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], GradientMaterial.prototype, "bottomColorAlpha", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], GradientMaterial.prototype, "offset", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], GradientMaterial.prototype, "scale", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], GradientMaterial.prototype, "smoothness", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("disableLighting")
+    ], GradientMaterial.prototype, "_disableLighting", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsLightsDirty")
+    ], GradientMaterial.prototype, "disableLighting", void 0);
+    return GradientMaterial;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PushMaterial"]));
+
+babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.GradientMaterial"] = GradientMaterial;
+>>>>>>> Stashed changes
 
 
 /***/ }),

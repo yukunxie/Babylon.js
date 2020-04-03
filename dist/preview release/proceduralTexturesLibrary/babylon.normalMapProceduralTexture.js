@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -438,6 +444,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Misc/decorators */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _normalMapProceduralTexture_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./normalMapProceduralTexture.fragment */ "./normalMap/normalMapProceduralTexture.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -500,6 +507,70 @@ var NormalMapProceduralTexture = /** @class */ (function (_super) {
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
 
 babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.NormalMapProceduralTexture"] = NormalMapProceduralTexture;
+=======
+
+
+
+
+
+var NormalMapProceduralTexture = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(NormalMapProceduralTexture, _super);
+    function NormalMapProceduralTexture(name, size, scene, fallbackTexture, generateMipMaps) {
+        var _this = _super.call(this, name, size, "normalMapProceduralTexture", scene, fallbackTexture, generateMipMaps) || this;
+        _this.updateShaderUniforms();
+        return _this;
+    }
+    NormalMapProceduralTexture.prototype.updateShaderUniforms = function () {
+        this.setTexture("baseSampler", this._baseTexture);
+        this.setFloat("size", this.getRenderSize());
+    };
+    NormalMapProceduralTexture.prototype.render = function (useCameraPostProcess) {
+        _super.prototype.render.call(this, useCameraPostProcess);
+    };
+    NormalMapProceduralTexture.prototype.resize = function (size, generateMipMaps) {
+        _super.prototype.resize.call(this, size, generateMipMaps);
+        // We need to update the "size" uniform
+        this.updateShaderUniforms();
+    };
+    Object.defineProperty(NormalMapProceduralTexture.prototype, "baseTexture", {
+        get: function () {
+            return this._baseTexture;
+        },
+        set: function (texture) {
+            this._baseTexture = texture;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Serializes this normal map procedural texture
+     * @returns a serialized normal map procedural texture object
+     */
+    NormalMapProceduralTexture.prototype.serialize = function () {
+        var serializationObject = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Serialize(this, _super.prototype.serialize.call(this));
+        serializationObject.customType = "BABYLON.NormalMapProceduralTexture";
+        return serializationObject;
+    };
+    /**
+     * Creates a Normal Map Procedural Texture from parsed normal map procedural texture data
+     * @param parsedTexture defines parsed texture data
+     * @param scene defines the current scene
+     * @param rootUrl defines the root URL containing normal map procedural texture information
+     * @returns a parsed Normal Map Procedural Texture
+     */
+    NormalMapProceduralTexture.Parse = function (parsedTexture, scene, rootUrl) {
+        var texture = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new NormalMapProceduralTexture(parsedTexture.name, parsedTexture._size, scene, undefined, parsedTexture._generateMipMaps); }, parsedTexture, scene, rootUrl);
+        return texture;
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsTexture"])()
+    ], NormalMapProceduralTexture.prototype, "baseTexture", null);
+    return NormalMapProceduralTexture;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
+
+babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.NormalMapProceduralTexture"] = NormalMapProceduralTexture;
+>>>>>>> Stashed changes
 
 
 /***/ }),

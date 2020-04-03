@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -438,6 +444,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Misc/decorators */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _starfieldProceduralTexture_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./starfieldProceduralTexture.fragment */ "./starfield/starfieldProceduralTexture.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -652,6 +659,222 @@ var StarfieldProceduralTexture = /** @class */ (function (_super) {
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
 
 babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.StarfieldProceduralTexture"] = StarfieldProceduralTexture;
+=======
+
+
+
+
+
+var StarfieldProceduralTexture = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(StarfieldProceduralTexture, _super);
+    function StarfieldProceduralTexture(name, size, scene, fallbackTexture, generateMipMaps) {
+        var _this = _super.call(this, name, size, "starfieldProceduralTexture", scene, fallbackTexture, generateMipMaps) || this;
+        _this._time = 1;
+        _this._alpha = 0.5;
+        _this._beta = 0.8;
+        _this._zoom = 0.8;
+        _this._formuparam = 0.53;
+        _this._stepsize = 0.1;
+        _this._tile = 0.850;
+        _this._brightness = 0.0015;
+        _this._darkmatter = 0.400;
+        _this._distfading = 0.730;
+        _this._saturation = 0.850;
+        _this.updateShaderUniforms();
+        return _this;
+    }
+    StarfieldProceduralTexture.prototype.updateShaderUniforms = function () {
+        this.setFloat("time", this._time);
+        this.setFloat("alpha", this._alpha);
+        this.setFloat("beta", this._beta);
+        this.setFloat("zoom", this._zoom);
+        this.setFloat("formuparam", this._formuparam);
+        this.setFloat("stepsize", this._stepsize);
+        this.setFloat("tile", this._tile);
+        this.setFloat("brightness", this._brightness);
+        this.setFloat("darkmatter", this._darkmatter);
+        this.setFloat("distfading", this._distfading);
+        this.setFloat("saturation", this._saturation);
+    };
+    Object.defineProperty(StarfieldProceduralTexture.prototype, "time", {
+        get: function () {
+            return this._time;
+        },
+        set: function (value) {
+            this._time = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StarfieldProceduralTexture.prototype, "alpha", {
+        get: function () {
+            return this._alpha;
+        },
+        set: function (value) {
+            this._alpha = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StarfieldProceduralTexture.prototype, "beta", {
+        get: function () {
+            return this._beta;
+        },
+        set: function (value) {
+            this._beta = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StarfieldProceduralTexture.prototype, "formuparam", {
+        get: function () {
+            return this._formuparam;
+        },
+        set: function (value) {
+            this._formuparam = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StarfieldProceduralTexture.prototype, "stepsize", {
+        get: function () {
+            return this._stepsize;
+        },
+        set: function (value) {
+            this._stepsize = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StarfieldProceduralTexture.prototype, "zoom", {
+        get: function () {
+            return this._zoom;
+        },
+        set: function (value) {
+            this._zoom = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StarfieldProceduralTexture.prototype, "tile", {
+        get: function () {
+            return this._tile;
+        },
+        set: function (value) {
+            this._tile = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StarfieldProceduralTexture.prototype, "brightness", {
+        get: function () {
+            return this._brightness;
+        },
+        set: function (value) {
+            this._brightness = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StarfieldProceduralTexture.prototype, "darkmatter", {
+        get: function () {
+            return this._darkmatter;
+        },
+        set: function (value) {
+            this._darkmatter = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StarfieldProceduralTexture.prototype, "distfading", {
+        get: function () {
+            return this._distfading;
+        },
+        set: function (value) {
+            this._distfading = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StarfieldProceduralTexture.prototype, "saturation", {
+        get: function () {
+            return this._saturation;
+        },
+        set: function (value) {
+            this._saturation = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Serializes this starfield procedural texture
+     * @returns a serialized starfield procedural texture object
+     */
+    StarfieldProceduralTexture.prototype.serialize = function () {
+        var serializationObject = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Serialize(this, _super.prototype.serialize.call(this));
+        serializationObject.customType = "BABYLON.StarfieldProceduralTexture";
+        return serializationObject;
+    };
+    /**
+     * Creates a Starfield Procedural Texture from parsed startfield procedural texture data
+     * @param parsedTexture defines parsed texture data
+     * @param scene defines the current scene
+     * @param rootUrl defines the root URL containing startfield procedural texture information
+     * @returns a parsed Starfield Procedural Texture
+     */
+    StarfieldProceduralTexture.Parse = function (parsedTexture, scene, rootUrl) {
+        var texture = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new StarfieldProceduralTexture(parsedTexture.name, parsedTexture._size, scene, undefined, parsedTexture._generateMipMaps); }, parsedTexture, scene, rootUrl);
+        return texture;
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], StarfieldProceduralTexture.prototype, "time", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], StarfieldProceduralTexture.prototype, "alpha", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], StarfieldProceduralTexture.prototype, "beta", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], StarfieldProceduralTexture.prototype, "formuparam", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], StarfieldProceduralTexture.prototype, "stepsize", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], StarfieldProceduralTexture.prototype, "zoom", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], StarfieldProceduralTexture.prototype, "tile", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], StarfieldProceduralTexture.prototype, "brightness", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], StarfieldProceduralTexture.prototype, "darkmatter", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], StarfieldProceduralTexture.prototype, "distfading", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], StarfieldProceduralTexture.prototype, "saturation", null);
+    return StarfieldProceduralTexture;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
+
+babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.StarfieldProceduralTexture"] = StarfieldProceduralTexture;
+>>>>>>> Stashed changes
 
 
 /***/ }),

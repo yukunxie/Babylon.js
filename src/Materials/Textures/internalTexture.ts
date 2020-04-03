@@ -79,6 +79,9 @@ export class InternalTexture {
         throw _DevTools.WarnImport("environmentTextureTools");
     }
 
+    public faceIndex: number;
+
+    public imageData: any;
     /**
      * Defines if the texture is ready
      */
@@ -276,9 +279,9 @@ export class InternalTexture {
         this._engine = engine;
         this._source = source;
 
-        if (!delayAllocation) {
-            this._webGLTexture = engine._createTexture();
-        }
+        // if (!delayAllocation) {
+        //     this._webGLTexture = engine._createTexture();
+        // }
     }
 
     /**

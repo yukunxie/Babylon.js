@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -438,6 +444,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Materials/Textures/texture */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _oceanPostProcess_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./oceanPostProcess.fragment */ "./ocean/oceanPostProcess.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -635,6 +642,205 @@ var OceanPostProcess = /** @class */ (function (_super) {
     return OceanPostProcess;
 }(babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["PostProcess"]));
 
+=======
+
+
+
+
+
+
+
+/**
+ * OceanPostProcess helps rendering an infinite ocean surface that can reflect and refract environment.
+ *
+ * Simmply add it to your scene and let the nerd that lives in you have fun.
+ * Example usage:
+ *  var pp = new OceanPostProcess("myOcean", camera);
+ *  pp.reflectionEnabled = true;
+ *  pp.refractionEnabled = true;
+ */
+var OceanPostProcess = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(OceanPostProcess, _super);
+    /**
+     * Instantiates a new Ocean Post Process.
+     * @param name the name to give to the postprocess.
+     * @camera the camera to apply the post process to.
+     * @param options optional object following the IOceanPostProcessOptions format used to customize reflection and refraction render targets sizes.
+     */
+    function OceanPostProcess(name, camera, options) {
+        if (options === void 0) { options = {}; }
+        var _this = _super.call(this, name, "oceanPostProcess", ["time", "resolution", "cameraPosition", "cameraRotation"], ["positionSampler", "reflectionSampler", "refractionSampler"], {
+            width: camera.getEngine().getRenderWidth(),
+            height: camera.getEngine().getRenderHeight()
+        }, camera, babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Texture"].TRILINEAR_SAMPLINGMODE, camera.getEngine(), true) || this;
+        _this._time = 0;
+        _this._cameraRotation = babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Vector3"].Zero();
+        _this._cameraViewMatrix = babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Matrix"].Identity();
+        _this._reflectionEnabled = false;
+        _this._refractionEnabled = false;
+        // Get geometry shader
+        _this._geometryRenderer = camera.getScene().enableGeometryBufferRenderer(1.0);
+        if (_this._geometryRenderer && _this._geometryRenderer.isSupported) {
+            // Eanble position buffer
+            _this._geometryRenderer.enablePosition = true;
+            // Create mirror textures
+            _this.reflectionTexture = new babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["MirrorTexture"]("oceanPostProcessReflection", options.reflectionSize || { width: 512, height: 512 }, camera.getScene());
+            _this.reflectionTexture.mirrorPlane = babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Plane"].FromPositionAndNormal(babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Vector3"].Zero(), new babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Vector3"](0, -1, 0));
+            _this.refractionTexture = new babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["RenderTargetTexture"]("oceanPostProcessRefraction", options.refractionSize || { width: 512, height: 512 }, camera.getScene());
+        }
+        else {
+            _this.updateEffect("#define NOT_SUPPORTED\n");
+        }
+        // On apply the post-process
+        _this.onApply = function (effect) {
+            if (!_this._geometryRenderer || !_this._geometryRenderer.isSupported) {
+                return;
+            }
+            var engine = camera.getEngine();
+            var scene = camera.getScene();
+            _this._time += engine.getDeltaTime() * 0.001;
+            effect.setFloat("time", _this._time);
+            effect.setVector2("resolution", new babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Vector2"](engine.getRenderWidth(), engine.getRenderHeight()));
+            if (scene) {
+                // Position
+                effect.setVector3("cameraPosition", camera.globalPosition);
+                // Rotation
+                _this._computeCameraRotation(camera);
+                effect.setVector3("cameraRotation", _this._cameraRotation);
+                // Samplers
+                effect.setTexture("positionSampler", _this._geometryRenderer.getGBuffer().textures[2]);
+                if (_this._reflectionEnabled) {
+                    effect.setTexture("reflectionSampler", _this.reflectionTexture);
+                }
+                if (_this._refractionEnabled) {
+                    effect.setTexture("refractionSampler", _this.refractionTexture);
+                }
+            }
+        };
+        return _this;
+    }
+    Object.defineProperty(OceanPostProcess.prototype, "reflectionEnabled", {
+        /**
+         * Gets a boolean indicating if the real-time reflection is enabled on the ocean.
+         */
+        get: function () {
+            return this._reflectionEnabled;
+        },
+        /**
+         * Sets weither or not the real-time reflection is enabled on the ocean.
+         * Is set to true, the reflection mirror texture will be used as reflection texture.
+         */
+        set: function (enabled) {
+            if (this._reflectionEnabled === enabled) {
+                return;
+            }
+            this._reflectionEnabled = enabled;
+            this.updateEffect(this._getDefines());
+            // Remove or add custom render target
+            var customRenderTargets = this.getCamera().getScene().customRenderTargets;
+            if (!enabled) {
+                var index = customRenderTargets.indexOf(this.reflectionTexture);
+                if (index !== -1) {
+                    customRenderTargets.splice(index, 1);
+                }
+            }
+            else {
+                customRenderTargets.push(this.reflectionTexture);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(OceanPostProcess.prototype, "refractionEnabled", {
+        /**
+         * Gets a boolean indicating if the real-time refraction is enabled on the ocean.
+         */
+        get: function () {
+            return this._refractionEnabled;
+        },
+        /**
+         * Sets weither or not the real-time refraction is enabled on the ocean.
+         * Is set to true, the refraction render target texture will be used as refraction texture.
+         */
+        set: function (enabled) {
+            if (this._refractionEnabled === enabled) {
+                return;
+            }
+            this._refractionEnabled = enabled;
+            this.updateEffect(this._getDefines());
+            // Remove or add custom render target
+            var customRenderTargets = this.getCamera().getScene().customRenderTargets;
+            if (!enabled) {
+                var index = customRenderTargets.indexOf(this.refractionTexture);
+                if (index !== -1) {
+                    customRenderTargets.splice(index, 1);
+                }
+            }
+            else {
+                customRenderTargets.push(this.refractionTexture);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(OceanPostProcess.prototype, "isSupported", {
+        /**
+         * Gets wether or not the post-processes is supported by the running hardware.
+         * This requires draw buffer supports.
+         */
+        get: function () {
+            return this._geometryRenderer !== null && this._geometryRenderer.isSupported;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Returns the appropriate defines according to the current configuration.
+     */
+    OceanPostProcess.prototype._getDefines = function () {
+        var defines = [];
+        if (this._reflectionEnabled) {
+            defines.push("#define REFLECTION_ENABLED");
+        }
+        if (this._refractionEnabled) {
+            defines.push("#define REFRACTION_ENABLED");
+        }
+        return defines.join("\n");
+    };
+    /**
+     * Computes the current camera rotation as the shader requires a camera rotation.
+     */
+    OceanPostProcess.prototype._computeCameraRotation = function (camera) {
+        camera.upVector.normalize();
+        var target = camera.getTarget();
+        camera._initialFocalDistance = target.subtract(camera.position).length();
+        if (camera.position.z === target.z) {
+            camera.position.z += babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["Epsilon"];
+        }
+        var direction = target.subtract(camera.position);
+        camera._viewMatrix.invertToRef(this._cameraViewMatrix);
+        this._cameraRotation.x = Math.atan(this._cameraViewMatrix.m[6] / this._cameraViewMatrix.m[10]);
+        if (direction.x >= 0.0) {
+            this._cameraRotation.y = (-Math.atan(direction.z / direction.x) + Math.PI / 2.0);
+        }
+        else {
+            this._cameraRotation.y = (-Math.atan(direction.z / direction.x) - Math.PI / 2.0);
+        }
+        this._cameraRotation.z = 0;
+        if (isNaN(this._cameraRotation.x)) {
+            this._cameraRotation.x = 0;
+        }
+        if (isNaN(this._cameraRotation.y)) {
+            this._cameraRotation.y = 0;
+        }
+        if (isNaN(this._cameraRotation.z)) {
+            this._cameraRotation.z = 0;
+        }
+    };
+    return OceanPostProcess;
+}(babylonjs_Materials_Textures_texture__WEBPACK_IMPORTED_MODULE_1__["PostProcess"]));
+
+>>>>>>> Stashed changes
 
 
 /***/ }),

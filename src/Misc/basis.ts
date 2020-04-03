@@ -6,6 +6,8 @@ import { Scalar } from '../Maths/math.scalar';
 import { Constants } from '../Engines/constants';
 import { Engine } from '../Engines/engine';
 
+InternalTextureSource;
+
 /**
  * Info about the .basis files
  */
@@ -190,25 +192,26 @@ export class BasisTools {
                 texture.type = Constants.TEXTURETYPE_UNSIGNED_SHORT_5_6_5;
                 texture.format = Constants.TEXTUREFORMAT_RGB;
 
-                if (engine.webGLVersion < 2 && (Scalar.Log2(rootImage.width) % 1 !== 0 || Scalar.Log2(rootImage.height) % 1 !== 0)) {
-                    // Create non power of two texture
-                    let source = new InternalTexture(engine, InternalTextureSource.Temp);
+                // if (engine.webGLVersion < 2 && (Scalar.Log2(rootImage.width) % 1 !== 0 || Scalar.Log2(rootImage.height) % 1 !== 0)) {
+                //     // Create non power of two texture
+                //     let source = new InternalTexture(engine, InternalTextureSource.Temp);
 
-                    texture._invertVScale = texture.invertY;
-                    source.type = Constants.TEXTURETYPE_UNSIGNED_SHORT_5_6_5;
-                    source.format = Constants.TEXTUREFORMAT_RGB;
-                    // Fallback requires aligned width/height
-                    source.width = (rootImage.width + 3) & ~3;
-                    source.height = (rootImage.height + 3) & ~3;
-                    engine._bindTextureDirectly(engine._gl.TEXTURE_2D, source, true);
-                    engine._uploadDataToTextureDirectly(source, rootImage.transcodedPixels, i, 0, Constants.TEXTUREFORMAT_RGB, true);
+                //     texture._invertVScale = texture.invertY;
+                //     source.type = Constants.TEXTURETYPE_UNSIGNED_SHORT_5_6_5;
+                //     source.format = Constants.TEXTUREFORMAT_RGB;
+                //     // Fallback requires aligned width/height
+                //     source.width = (rootImage.width + 3) & ~3;
+                //     source.height = (rootImage.height + 3) & ~3;
+                //     engine._bindTextureDirectly(engine._gl.TEXTURE_2D, source, true);
+                //     engine._uploadDataToTextureDirectly(source, rootImage.transcodedPixels, i, 0, Constants.TEXTUREFORMAT_RGB, true);
 
-                    // Resize to power of two
-                    engine._rescaleTexture(source, texture, engine.scenes[0], engine._getInternalFormat(Constants.TEXTUREFORMAT_RGB), () => {
-                        engine._releaseTexture(source);
-                        engine._bindTextureDirectly(engine._gl.TEXTURE_2D, texture, true);
-                    });
-                } else {
+                //     // Resize to power of two
+                //     engine._rescaleTexture(source, texture, engine.scenes[0], engine._getInternalFormat(Constants.TEXTUREFORMAT_RGB), () => {
+                //         engine._releaseTexture(source);
+                //         engine._bindTextureDirectly(engine._gl.TEXTURE_2D, texture, true);
+                //     });
+                // } else
+                {
                     // Fallback is already inverted
                     texture._invertVScale = !texture.invertY;
 

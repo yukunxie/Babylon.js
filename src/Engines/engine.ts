@@ -1707,6 +1707,34 @@ export class Engine extends ThinEngine {
         this._deltaTime = this._performanceMonitor.instantaneousFrameTime || 0;
     }
 
+<<<<<<< Updated upstream
+=======
+    /** @hidden */
+    public _uploadImageToTexture(texture: InternalTexture, image: HTMLImageElement | ImageBitmap, faceIndex: number = 0, lod: number = 0) {
+        var gl = this._gl;
+
+        var textureType = this._getWebGLTextureType(texture.type);
+        var format = this._getInternalFormat(texture.format);
+        var internalFormat = this._getRGBABufferInternalSizedFormat(texture.type, format);
+
+        var bindTarget = texture.isCube ? gl.TEXTURE_CUBE_MAP : gl.TEXTURE_2D;
+
+        texture.imageData = image;
+        texture.faceIndex = faceIndex;
+
+        // this._bindTextureDirectly(bindTarget, texture, true);
+        // this._unpackFlipY(texture.invertY);
+
+        // var target = gl.TEXTURE_2D;
+        // if (texture.isCube) {
+        //     target = gl.TEXTURE_CUBE_MAP_POSITIVE_X + faceIndex;
+        // }
+
+        // gl.texImage2D(target, lod, internalFormat, format, textureType, image);
+        // this._bindTextureDirectly(bindTarget, null, true);
+    }
+
+>>>>>>> Stashed changes
     /**
      * Sets the frame buffer Depth / Stencil attachement of the render target to the defined depth stencil texture.
      * @param renderTarget The render target to set the frame buffer for

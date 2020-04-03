@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -392,6 +398,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Misc/decorators */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _brickProceduralTexture_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./brickProceduralTexture.fragment */ "./brick/brickProceduralTexture.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -495,6 +502,111 @@ var BrickProceduralTexture = /** @class */ (function (_super) {
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
 
 babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.BrickProceduralTexture"] = BrickProceduralTexture;
+=======
+
+
+
+
+
+
+var BrickProceduralTexture = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(BrickProceduralTexture, _super);
+    function BrickProceduralTexture(name, size, scene, fallbackTexture, generateMipMaps) {
+        var _this = _super.call(this, name, size, "brickProceduralTexture", scene, fallbackTexture, generateMipMaps) || this;
+        _this._numberOfBricksHeight = 15;
+        _this._numberOfBricksWidth = 5;
+        _this._jointColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.72, 0.72, 0.72);
+        _this._brickColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.77, 0.47, 0.40);
+        _this.updateShaderUniforms();
+        return _this;
+    }
+    BrickProceduralTexture.prototype.updateShaderUniforms = function () {
+        this.setFloat("numberOfBricksHeight", this._numberOfBricksHeight);
+        this.setFloat("numberOfBricksWidth", this._numberOfBricksWidth);
+        this.setColor3("brickColor", this._brickColor);
+        this.setColor3("jointColor", this._jointColor);
+    };
+    Object.defineProperty(BrickProceduralTexture.prototype, "numberOfBricksHeight", {
+        get: function () {
+            return this._numberOfBricksHeight;
+        },
+        set: function (value) {
+            this._numberOfBricksHeight = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(BrickProceduralTexture.prototype, "numberOfBricksWidth", {
+        get: function () {
+            return this._numberOfBricksWidth;
+        },
+        set: function (value) {
+            this._numberOfBricksWidth = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(BrickProceduralTexture.prototype, "jointColor", {
+        get: function () {
+            return this._jointColor;
+        },
+        set: function (value) {
+            this._jointColor = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(BrickProceduralTexture.prototype, "brickColor", {
+        get: function () {
+            return this._brickColor;
+        },
+        set: function (value) {
+            this._brickColor = value;
+            this.updateShaderUniforms();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Serializes this brick procedural texture
+     * @returns a serialized brick procedural texture object
+     */
+    BrickProceduralTexture.prototype.serialize = function () {
+        var serializationObject = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Serialize(this, _super.prototype.serialize.call(this));
+        serializationObject.customType = "BABYLON.BrickProceduralTexture";
+        return serializationObject;
+    };
+    /**
+     * Creates a Brick Procedural Texture from parsed brick procedural texture data
+     * @param parsedTexture defines parsed texture data
+     * @param scene defines the current scene
+     * @param rootUrl defines the root URL containing brick procedural texture information
+     * @returns a parsed Brick Procedural Texture
+     */
+    BrickProceduralTexture.Parse = function (parsedTexture, scene, rootUrl) {
+        var texture = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new BrickProceduralTexture(parsedTexture.name, parsedTexture._size, scene, undefined, parsedTexture._generateMipMaps); }, parsedTexture, scene, rootUrl);
+        return texture;
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], BrickProceduralTexture.prototype, "numberOfBricksHeight", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], BrickProceduralTexture.prototype, "numberOfBricksWidth", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], BrickProceduralTexture.prototype, "jointColor", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], BrickProceduralTexture.prototype, "brickColor", null);
+    return BrickProceduralTexture;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ProceduralTexture"]));
+
+babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.BrickProceduralTexture"] = BrickProceduralTexture;
+>>>>>>> Stashed changes
 
 
 /***/ }),

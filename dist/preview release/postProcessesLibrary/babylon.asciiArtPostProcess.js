@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -371,6 +377,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babylonjs/Misc/decorators */ "babylonjs/Misc/decorators");
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _asciiart_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./asciiart.fragment */ "./asciiArt/asciiart.fragment.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -575,6 +582,212 @@ var AsciiArtPostProcess = /** @class */ (function (_super) {
     return AsciiArtPostProcess;
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PostProcess"]));
 
+=======
+
+
+
+
+
+
+/**
+ * AsciiArtFontTexture is the helper class used to easily create your ascii art font texture.
+ *
+ * It basically takes care rendering the font front the given font size to a texture.
+ * This is used later on in the postprocess.
+ */
+var AsciiArtFontTexture = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(AsciiArtFontTexture, _super);
+    /**
+     * Create a new instance of the Ascii Art FontTexture class
+     * @param name the name of the texture
+     * @param font the font to use, use the W3C CSS notation
+     * @param text the caracter set to use in the rendering.
+     * @param scene the scene that owns the texture
+     */
+    function AsciiArtFontTexture(name, font, text, scene) {
+        if (scene === void 0) { scene = null; }
+        var _this = _super.call(this, scene) || this;
+        scene = _this.getScene();
+        if (!scene) {
+            return _this;
+        }
+        _this.name = name;
+        _this._text == text;
+        _this._font == font;
+        _this.wrapU = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Texture"].CLAMP_ADDRESSMODE;
+        _this.wrapV = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Texture"].CLAMP_ADDRESSMODE;
+        //this.anisotropicFilteringLevel = 1;
+        // Get the font specific info.
+        var maxCharHeight = _this.getFontHeight(font);
+        var maxCharWidth = _this.getFontWidth(font);
+        _this._charSize = Math.max(maxCharHeight.height, maxCharWidth);
+        // This is an approximate size, but should always be able to fit at least the maxCharCount.
+        var textureWidth = Math.ceil(_this._charSize * text.length);
+        var textureHeight = _this._charSize;
+        // Create the texture that will store the font characters.
+        _this._texture = scene.getEngine().createDynamicTexture(textureWidth, textureHeight, false, babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Texture"].NEAREST_SAMPLINGMODE);
+        //scene.getEngine().setclamp
+        var textureSize = _this.getSize();
+        // Create a canvas with the final size: the one matching the texture.
+        var canvas = document.createElement("canvas");
+        canvas.width = textureSize.width;
+        canvas.height = textureSize.height;
+        var context = canvas.getContext("2d");
+        context.textBaseline = "top";
+        context.font = font;
+        context.fillStyle = "white";
+        context.imageSmoothingEnabled = false;
+        // Sets the text in the texture.
+        for (var i = 0; i < text.length; i++) {
+            context.fillText(text[i], i * _this._charSize, -maxCharHeight.offset);
+        }
+        // Flush the text in the dynamic texture.
+        scene.getEngine().updateDynamicTexture(_this._texture, canvas, false, true);
+        return _this;
+    }
+    Object.defineProperty(AsciiArtFontTexture.prototype, "charSize", {
+        /**
+         * Gets the size of one char in the texture (each char fits in size * size space in the texture).
+         */
+        get: function () {
+            return this._charSize;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Gets the max char width of a font.
+     * @param font the font to use, use the W3C CSS notation
+     * @return the max char width
+     */
+    AsciiArtFontTexture.prototype.getFontWidth = function (font) {
+        var fontDraw = document.createElement("canvas");
+        var ctx = fontDraw.getContext('2d');
+        ctx.fillStyle = 'white';
+        ctx.font = font;
+        return ctx.measureText("W").width;
+    };
+    // More info here: https://videlais.com/2014/03/16/the-many-and-varied-problems-with-measuring-font-height-for-html5-canvas/
+    /**
+     * Gets the max char height of a font.
+     * @param font the font to use, use the W3C CSS notation
+     * @return the max char height
+     */
+    AsciiArtFontTexture.prototype.getFontHeight = function (font) {
+        var fontDraw = document.createElement("canvas");
+        var ctx = fontDraw.getContext('2d');
+        ctx.fillRect(0, 0, fontDraw.width, fontDraw.height);
+        ctx.textBaseline = 'top';
+        ctx.fillStyle = 'white';
+        ctx.font = font;
+        ctx.fillText('jH|', 0, 0);
+        var pixels = ctx.getImageData(0, 0, fontDraw.width, fontDraw.height).data;
+        var start = -1;
+        var end = -1;
+        for (var row = 0; row < fontDraw.height; row++) {
+            for (var column = 0; column < fontDraw.width; column++) {
+                var index = (row * fontDraw.width + column) * 4;
+                if (pixels[index] === 0) {
+                    if (column === fontDraw.width - 1 && start !== -1) {
+                        end = row;
+                        row = fontDraw.height;
+                        break;
+                    }
+                    continue;
+                }
+                else {
+                    if (start === -1) {
+                        start = row;
+                    }
+                    break;
+                }
+            }
+        }
+        return { height: (end - start) + 1, offset: start - 1 };
+    };
+    /**
+     * Clones the current AsciiArtTexture.
+     * @return the clone of the texture.
+     */
+    AsciiArtFontTexture.prototype.clone = function () {
+        return new AsciiArtFontTexture(this.name, this._font, this._text, this.getScene());
+    };
+    /**
+     * Parses a json object representing the texture and returns an instance of it.
+     * @param source the source JSON representation
+     * @param scene the scene to create the texture for
+     * @return the parsed texture
+     */
+    AsciiArtFontTexture.Parse = function (source, scene) {
+        var texture = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new AsciiArtFontTexture(source.name, source.font, source.text, scene); }, source, scene, null);
+        return texture;
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("font")
+    ], AsciiArtFontTexture.prototype, "_font", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("text")
+    ], AsciiArtFontTexture.prototype, "_text", void 0);
+    return AsciiArtFontTexture;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["BaseTexture"]));
+
+/**
+ * AsciiArtPostProcess helps rendering everithing in Ascii Art.
+ *
+ * Simmply add it to your scene and let the nerd that lives in you have fun.
+ * Example usage: var pp = new AsciiArtPostProcess("myAscii", "20px Monospace", camera);
+ */
+var AsciiArtPostProcess = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(AsciiArtPostProcess, _super);
+    /**
+     * Instantiates a new Ascii Art Post Process.
+     * @param name the name to give to the postprocess
+     * @camera the camera to apply the post process to.
+     * @param options can either be the font name or an option object following the IAsciiArtPostProcessOptions format
+     */
+    function AsciiArtPostProcess(name, camera, options) {
+        var _this = _super.call(this, name, 'asciiart', ['asciiArtFontInfos', 'asciiArtOptions'], ['asciiArtFont'], {
+            width: camera.getEngine().getRenderWidth(),
+            height: camera.getEngine().getRenderHeight()
+        }, camera, babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Texture"].TRILINEAR_SAMPLINGMODE, camera.getEngine(), true) || this;
+        /**
+         * This defines the amount you want to mix the "tile" or caracter space colored in the ascii art.
+         * This number is defined between 0 and 1;
+         */
+        _this.mixToTile = 0;
+        /**
+         * This defines the amount you want to mix the normal rendering pass in the ascii art.
+         * This number is defined between 0 and 1;
+         */
+        _this.mixToNormal = 0;
+        // Default values.
+        var font = "40px Monospace";
+        var characterSet = " `-.'_:,\"=^;<+!*?/cL\\zrs7TivJtC{3F)Il(xZfY5S2eajo14[nuyE]P6V9kXpKwGhqAUbOd8#HRDB0$mgMW&Q%N@";
+        // Use options.
+        if (options) {
+            if (typeof (options) === "string") {
+                font = options;
+            }
+            else {
+                font = options.font || font;
+                characterSet = options.characterSet || characterSet;
+                _this.mixToTile = options.mixToTile || _this.mixToTile;
+                _this.mixToNormal = options.mixToNormal || _this.mixToNormal;
+            }
+        }
+        _this._asciiArtFontTexture = new AsciiArtFontTexture(name, font, characterSet, camera.getScene());
+        var textureSize = _this._asciiArtFontTexture.getSize();
+        _this.onApply = function (effect) {
+            effect.setTexture("asciiArtFont", _this._asciiArtFontTexture);
+            effect.setFloat4("asciiArtFontInfos", _this._asciiArtFontTexture.charSize, characterSet.length, textureSize.width, textureSize.height);
+            effect.setFloat4("asciiArtOptions", _this.width, _this.height, _this.mixToNormal, _this.mixToTile);
+        };
+        return _this;
+    }
+    return AsciiArtPostProcess;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PostProcess"]));
+
+>>>>>>> Stashed changes
 
 
 /***/ }),

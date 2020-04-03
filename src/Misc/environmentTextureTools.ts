@@ -381,6 +381,54 @@ export class EnvironmentTextureTools {
         return EnvironmentTextureTools.UploadLevelsAsync(texture, imageData);
     }
 
+<<<<<<< Updated upstream
+=======
+    private static _OnImageReadyAsync(image: HTMLImageElement | ImageBitmap, engine: Engine, expandTexture: boolean,
+        rgbdPostProcess:  Nullable<PostProcess>, url: string, face: number, i: number, generateNonLODTextures: boolean,
+        lodTextures: Nullable<{ [lod: number]: BaseTexture }>, cubeRtt: Nullable<InternalTexture>, texture: InternalTexture
+        ): Promise<void> {
+            return new Promise((resolve, reject) => {
+                if (expandTexture) {
+                    console.log("xxxxxxxxxxxxxxxxxxx error", Error().stack);
+                    // let tempTexture = engine.createTexture(null, true, true, null, Constants.TEXTURE_NEAREST_SAMPLINGMODE, null,
+                    //     (message) => {
+                    //         reject(message);
+                    //     },
+                    //     image);
+
+                    // rgbdPostProcess!.getEffect().executeWhenCompiled(() => {
+                    //     // Uncompress the data to a RTT
+                    //     rgbdPostProcess!.onApply = (effect) => {
+                    //         effect._bindTexture("textureSampler", tempTexture);
+                    //         effect.setFloat2("scale", 1, 1);
+                    //     };
+
+                    //     engine.scenes[0].postProcessManager.directRender([rgbdPostProcess!], cubeRtt, true, face, i);
+
+                    //     // Cleanup
+                    //     engine.restoreDefaultFramebuffer();
+                    //     tempTexture.dispose();
+                    //     URL.revokeObjectURL(url);
+                    //     resolve();
+                    // });
+                }
+                else {
+                    engine._uploadImageToTexture(texture, image, face, i);
+
+                    // Upload the face to the non lod texture support
+                    if (generateNonLODTextures) {
+                        let lodTexture = lodTextures![i];
+                        if (lodTexture) {
+                            engine._uploadImageToTexture(lodTexture._texture!, image, face, 0);
+                        }
+                    }
+                    resolve();
+                }
+            }
+        );
+    }
+
+>>>>>>> Stashed changes
     /**
      * Uploads the levels of image data to the GPU.
      * @param texture defines the internal texture to upload to
@@ -505,6 +553,7 @@ export class EnvironmentTextureTools {
                 let image = new Image();
                 image.src = url;
 
+<<<<<<< Updated upstream
                 // Enqueue promise to upload to the texture.
                 let promise = new Promise<void>((resolve, reject) => {
                     image.onload = () => {
@@ -529,6 +578,24 @@ export class EnvironmentTextureTools {
                                 tempTexture.dispose();
                                 window.URL.revokeObjectURL(url);
                                 resolve();
+=======
+                if (typeof Image === "undefined") {
+                    console.log("xxxxxxxxxxxxxxxx error, createImageBitmap not exist.", Error().stack);
+                    promise = createImageBitmap(blob).then((img) => {
+                        return this._OnImageReadyAsync(img, engine, expandTexture, rgbdPostProcess, url, face, i, generateNonLODTextures, lodTextures, cubeRtt, texture);
+                    });
+                } else {
+                    let image = new Image();
+                    image.src = url;
+
+                    // Enqueue promise to upload to the texture.
+                    promise = new Promise<void>((resolve, reject) => {
+                        image.onload = () => {
+                            this._OnImageReadyAsync(image, engine, expandTexture, rgbdPostProcess, url, face, i, generateNonLODTextures, lodTextures, cubeRtt, texture)
+                            .then(() => resolve())
+                            .catch((reason) => {
+                                reject(reason);
+>>>>>>> Stashed changes
                             });
                         }
                         else {
@@ -554,6 +621,7 @@ export class EnvironmentTextureTools {
 
         // Fill remaining mipmaps with black textures.
         if (imageData.length < mipmapsCount) {
+            console.log("ccccccccccccccccccc error", Error().stack);
             let data: ArrayBufferView;
             const size = Math.pow(2, mipmapsCount - 1 - imageData.length);
             const dataLength = size * size * 4;

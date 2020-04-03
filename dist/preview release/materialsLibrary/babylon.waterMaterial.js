@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -488,6 +494,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _water_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./water.fragment */ "./water/water.fragment.ts");
 /* harmony import */ var _water_vertex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./water.vertex */ "./water/water.vertex.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -1181,6 +1188,703 @@ var WaterMaterial = /** @class */ (function (_super) {
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PushMaterial"]));
 
 babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.WaterMaterial"] = WaterMaterial;
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var WaterMaterialDefines = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(WaterMaterialDefines, _super);
+    function WaterMaterialDefines() {
+        var _this = _super.call(this) || this;
+        _this.BUMP = false;
+        _this.REFLECTION = false;
+        _this.CLIPPLANE = false;
+        _this.CLIPPLANE2 = false;
+        _this.CLIPPLANE3 = false;
+        _this.CLIPPLANE4 = false;
+        _this.CLIPPLANE5 = false;
+        _this.CLIPPLANE6 = false;
+        _this.ALPHATEST = false;
+        _this.DEPTHPREPASS = false;
+        _this.POINTSIZE = false;
+        _this.FOG = false;
+        _this.NORMAL = false;
+        _this.UV1 = false;
+        _this.UV2 = false;
+        _this.VERTEXCOLOR = false;
+        _this.VERTEXALPHA = false;
+        _this.NUM_BONE_INFLUENCERS = 0;
+        _this.BonesPerMesh = 0;
+        _this.INSTANCES = false;
+        _this.SPECULARTERM = false;
+        _this.LOGARITHMICDEPTH = false;
+        _this.FRESNELSEPARATE = false;
+        _this.BUMPSUPERIMPOSE = false;
+        _this.BUMPAFFECTSREFLECTION = false;
+        _this.IMAGEPROCESSING = false;
+        _this.VIGNETTE = false;
+        _this.VIGNETTEBLENDMODEMULTIPLY = false;
+        _this.VIGNETTEBLENDMODEOPAQUE = false;
+        _this.TONEMAPPING = false;
+        _this.TONEMAPPING_ACES = false;
+        _this.CONTRAST = false;
+        _this.EXPOSURE = false;
+        _this.COLORCURVES = false;
+        _this.COLORGRADING = false;
+        _this.COLORGRADING3D = false;
+        _this.SAMPLER3DGREENDEPTH = false;
+        _this.SAMPLER3DBGRMAP = false;
+        _this.IMAGEPROCESSINGPOSTPROCESS = false;
+        _this.rebuild();
+        return _this;
+    }
+    return WaterMaterialDefines;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialDefines"]));
+var WaterMaterial = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(WaterMaterial, _super);
+    /**
+    * Constructor
+    */
+    function WaterMaterial(name, scene, renderTargetSize) {
+        if (renderTargetSize === void 0) { renderTargetSize = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Vector2"](512, 512); }
+        var _this = _super.call(this, name, scene) || this;
+        _this.renderTargetSize = renderTargetSize;
+        _this.diffuseColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](1, 1, 1);
+        _this.specularColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0, 0, 0);
+        _this.specularPower = 64;
+        _this._disableLighting = false;
+        _this._maxSimultaneousLights = 4;
+        /**
+        * @param {number}: Represents the wind force
+        */
+        _this.windForce = 6;
+        /**
+        * @param {Vector2}: The direction of the wind in the plane (X, Z)
+        */
+        _this.windDirection = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Vector2"](0, 1);
+        /**
+        * @param {number}: Wave height, represents the height of the waves
+        */
+        _this.waveHeight = 0.4;
+        /**
+        * @param {number}: Bump height, represents the bump height related to the bump map
+        */
+        _this.bumpHeight = 0.4;
+        /**
+         * @param {boolean}: Add a smaller moving bump to less steady waves.
+         */
+        _this._bumpSuperimpose = false;
+        /**
+         * @param {boolean}: Color refraction and reflection differently with .waterColor2 and .colorBlendFactor2. Non-linear (physically correct) fresnel.
+         */
+        _this._fresnelSeparate = false;
+        /**
+         * @param {boolean}: bump Waves modify the reflection.
+         */
+        _this._bumpAffectsReflection = false;
+        /**
+        * @param {number}: The water color blended with the refraction (near)
+        */
+        _this.waterColor = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.1, 0.1, 0.6);
+        /**
+        * @param {number}: The blend factor related to the water color
+        */
+        _this.colorBlendFactor = 0.2;
+        /**
+         * @param {number}: The water color blended with the reflection (far)
+         */
+        _this.waterColor2 = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"](0.1, 0.1, 0.6);
+        /**
+         * @param {number}: The blend factor related to the water color (reflection, far)
+         */
+        _this.colorBlendFactor2 = 0.2;
+        /**
+        * @param {number}: Represents the maximum length of a wave
+        */
+        _this.waveLength = 0.1;
+        /**
+        * @param {number}: Defines the waves speed
+        */
+        _this.waveSpeed = 1.0;
+        /**
+         * Sets or gets wether or not automatic clipping should be enabled or not. Setting to true will save performances and
+         * will avoid calculating useless pixels in the pixel shader of the water material.
+         */
+        _this.disableClipPlane = false;
+        _this._renderTargets = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SmartArray"](16);
+        /*
+        * Private members
+        */
+        _this._mesh = null;
+        _this._reflectionTransform = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Matrix"].Zero();
+        _this._lastTime = 0;
+        _this._lastDeltaTime = 0;
+        _this._createRenderTargets(scene, renderTargetSize);
+        // Create render targets
+        _this.getRenderTargetTextures = function () {
+            _this._renderTargets.reset();
+            _this._renderTargets.push(_this._reflectionRTT);
+            _this._renderTargets.push(_this._refractionRTT);
+            return _this._renderTargets;
+        };
+        _this._imageProcessingConfiguration = _this.getScene().imageProcessingConfiguration;
+        if (_this._imageProcessingConfiguration) {
+            _this._imageProcessingObserver = _this._imageProcessingConfiguration.onUpdateParameters.add(function () {
+                _this._markAllSubMeshesAsImageProcessingDirty();
+            });
+        }
+        return _this;
+    }
+    Object.defineProperty(WaterMaterial.prototype, "hasRenderTargetTextures", {
+        /**
+         * Gets a boolean indicating that current material needs to register RTT
+         */
+        get: function () {
+            return true;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(WaterMaterial.prototype, "useLogarithmicDepth", {
+        get: function () {
+            return this._useLogarithmicDepth;
+        },
+        set: function (value) {
+            this._useLogarithmicDepth = value && this.getScene().getEngine().getCaps().fragmentDepthSupported;
+            this._markAllSubMeshesAsMiscDirty();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(WaterMaterial.prototype, "refractionTexture", {
+        // Get / Set
+        get: function () {
+            return this._refractionRTT;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(WaterMaterial.prototype, "reflectionTexture", {
+        get: function () {
+            return this._reflectionRTT;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    // Methods
+    WaterMaterial.prototype.addToRenderList = function (node) {
+        if (this._refractionRTT && this._refractionRTT.renderList) {
+            this._refractionRTT.renderList.push(node);
+        }
+        if (this._reflectionRTT && this._reflectionRTT.renderList) {
+            this._reflectionRTT.renderList.push(node);
+        }
+    };
+    WaterMaterial.prototype.enableRenderTargets = function (enable) {
+        var refreshRate = enable ? 1 : 0;
+        if (this._refractionRTT) {
+            this._refractionRTT.refreshRate = refreshRate;
+        }
+        if (this._reflectionRTT) {
+            this._reflectionRTT.refreshRate = refreshRate;
+        }
+    };
+    WaterMaterial.prototype.getRenderList = function () {
+        return this._refractionRTT ? this._refractionRTT.renderList : [];
+    };
+    Object.defineProperty(WaterMaterial.prototype, "renderTargetsEnabled", {
+        get: function () {
+            return !(this._refractionRTT && this._refractionRTT.refreshRate === 0);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    WaterMaterial.prototype.needAlphaBlending = function () {
+        return (this.alpha < 1.0);
+    };
+    WaterMaterial.prototype.needAlphaTesting = function () {
+        return false;
+    };
+    WaterMaterial.prototype.getAlphaTestTexture = function () {
+        return null;
+    };
+    WaterMaterial.prototype.isReadyForSubMesh = function (mesh, subMesh, useInstances) {
+        if (this.isFrozen) {
+            if (subMesh.effect && subMesh.effect._wasPreviouslyReady) {
+                return true;
+            }
+        }
+        if (!subMesh._materialDefines) {
+            subMesh._materialDefines = new WaterMaterialDefines();
+        }
+        var defines = subMesh._materialDefines;
+        var scene = this.getScene();
+        if (!this.checkReadyOnEveryCall && subMesh.effect) {
+            if (this._renderId === scene.getRenderId()) {
+                return true;
+            }
+        }
+        var engine = scene.getEngine();
+        // Textures
+        if (defines._areTexturesDirty) {
+            defines._needUVs = false;
+            if (scene.texturesEnabled) {
+                if (this.bumpTexture && babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialFlags"].BumpTextureEnabled) {
+                    if (!this.bumpTexture.isReady()) {
+                        return false;
+                    }
+                    else {
+                        defines._needUVs = true;
+                        defines.BUMP = true;
+                    }
+                }
+                if (babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialFlags"].ReflectionTextureEnabled) {
+                    defines.REFLECTION = true;
+                }
+            }
+        }
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForFrameBoundValues(scene, engine, defines, useInstances ? true : false);
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForMisc(mesh, scene, this._useLogarithmicDepth, this.pointsCloud, this.fogEnabled, this._shouldTurnAlphaTestOn(mesh), defines);
+        if (defines._areMiscDirty) {
+            if (this._fresnelSeparate) {
+                defines.FRESNELSEPARATE = true;
+            }
+            if (this._bumpSuperimpose) {
+                defines.BUMPSUPERIMPOSE = true;
+            }
+            if (this._bumpAffectsReflection) {
+                defines.BUMPAFFECTSREFLECTION = true;
+            }
+        }
+        // Lights
+        defines._needNormals = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForLights(scene, mesh, defines, true, this._maxSimultaneousLights, this._disableLighting);
+        // Image processing
+        if (defines._areImageProcessingDirty && this._imageProcessingConfiguration) {
+            if (!this._imageProcessingConfiguration.isReady()) {
+                return false;
+            }
+            this._imageProcessingConfiguration.prepareDefines(defines);
+            defines.IS_REFLECTION_LINEAR = (this.reflectionTexture != null && !this.reflectionTexture.gammaSpace);
+            defines.IS_REFRACTION_LINEAR = (this.refractionTexture != null && !this.refractionTexture.gammaSpace);
+        }
+        // Attribs
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForAttributes(mesh, defines, true, true);
+        // Configure this
+        this._mesh = mesh;
+        if (this._waitingRenderList) {
+            for (var i = 0; i < this._waitingRenderList.length; i++) {
+                this.addToRenderList(scene.getNodeByID(this._waitingRenderList[i]));
+            }
+            this._waitingRenderList = null;
+        }
+        // Get correct effect
+        if (defines.isDirty) {
+            defines.markAsProcessed();
+            scene.resetCachedMaterial();
+            // Fallbacks
+            var fallbacks = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["EffectFallbacks"]();
+            if (defines.FOG) {
+                fallbacks.addFallback(1, "FOG");
+            }
+            if (defines.LOGARITHMICDEPTH) {
+                fallbacks.addFallback(0, "LOGARITHMICDEPTH");
+            }
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].HandleFallbacksForShadows(defines, fallbacks, this.maxSimultaneousLights);
+            if (defines.NUM_BONE_INFLUENCERS > 0) {
+                fallbacks.addCPUSkinningFallback(0, mesh);
+            }
+            //Attributes
+            var attribs = [babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].PositionKind];
+            if (defines.NORMAL) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].NormalKind);
+            }
+            if (defines.UV1) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].UVKind);
+            }
+            if (defines.UV2) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].UV2Kind);
+            }
+            if (defines.VERTEXCOLOR) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].ColorKind);
+            }
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareAttributesForBones(attribs, mesh, defines, fallbacks);
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareAttributesForInstances(attribs, defines);
+            // Legacy browser patch
+            var shaderName = "water";
+            var join = defines.toString();
+            var uniforms = ["world", "view", "viewProjection", "vEyePosition", "vLightsType", "vDiffuseColor", "vSpecularColor",
+                "vFogInfos", "vFogColor", "pointSize",
+                "vNormalInfos",
+                "mBones",
+                "vClipPlane", "vClipPlane2", "vClipPlane3", "vClipPlane4", "vClipPlane5", "vClipPlane6", "normalMatrix",
+                "logarithmicDepthConstant",
+                // Water
+                "worldReflectionViewProjection", "windDirection", "waveLength", "time", "windForce",
+                "cameraPosition", "bumpHeight", "waveHeight", "waterColor", "waterColor2", "colorBlendFactor", "colorBlendFactor2", "waveSpeed"
+            ];
+            var samplers = ["normalSampler",
+                // Water
+                "refractionSampler", "reflectionSampler"
+            ];
+            var uniformBuffers = new Array();
+            if (babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ImageProcessingConfiguration"]) {
+                babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ImageProcessingConfiguration"].PrepareUniforms(uniforms, defines);
+                babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["ImageProcessingConfiguration"].PrepareSamplers(samplers, defines);
+            }
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareUniformsAndSamplersList({
+                uniformsNames: uniforms,
+                uniformBuffersNames: uniformBuffers,
+                samplers: samplers,
+                defines: defines,
+                maxSimultaneousLights: this.maxSimultaneousLights
+            });
+            subMesh.setEffect(scene.getEngine().createEffect(shaderName, {
+                attributes: attribs,
+                uniformsNames: uniforms,
+                uniformBuffersNames: uniformBuffers,
+                samplers: samplers,
+                defines: join,
+                fallbacks: fallbacks,
+                onCompiled: this.onCompiled,
+                onError: this.onError,
+                indexParameters: { maxSimultaneousLights: this._maxSimultaneousLights }
+            }, engine), defines);
+        }
+        if (!subMesh.effect || !subMesh.effect.isReady()) {
+            return false;
+        }
+        this._renderId = scene.getRenderId();
+        subMesh.effect._wasPreviouslyReady = true;
+        return true;
+    };
+    WaterMaterial.prototype.bindForSubMesh = function (world, mesh, subMesh) {
+        var scene = this.getScene();
+        var defines = subMesh._materialDefines;
+        if (!defines) {
+            return;
+        }
+        var effect = subMesh.effect;
+        if (!effect || !this._mesh) {
+            return;
+        }
+        this._activeEffect = effect;
+        // Matrices
+        this.bindOnlyWorldMatrix(world);
+        this._activeEffect.setMatrix("viewProjection", scene.getTransformMatrix());
+        // Bones
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindBonesParameters(mesh, this._activeEffect);
+        if (this._mustRebind(scene, effect)) {
+            // Textures
+            if (this.bumpTexture && babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialFlags"].BumpTextureEnabled) {
+                this._activeEffect.setTexture("normalSampler", this.bumpTexture);
+                this._activeEffect.setFloat2("vNormalInfos", this.bumpTexture.coordinatesIndex, this.bumpTexture.level);
+                this._activeEffect.setMatrix("normalMatrix", this.bumpTexture.getTextureMatrix());
+            }
+            // Clip plane
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindClipPlane(this._activeEffect, scene);
+            // Point size
+            if (this.pointsCloud) {
+                this._activeEffect.setFloat("pointSize", this.pointSize);
+            }
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindEyePosition(effect, scene);
+        }
+        this._activeEffect.setColor4("vDiffuseColor", this.diffuseColor, this.alpha * mesh.visibility);
+        if (defines.SPECULARTERM) {
+            this._activeEffect.setColor4("vSpecularColor", this.specularColor, this.specularPower);
+        }
+        if (scene.lightsEnabled && !this.disableLighting) {
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindLights(scene, mesh, this._activeEffect, defines, this.maxSimultaneousLights);
+        }
+        // View
+        if (scene.fogEnabled && mesh.applyFog && scene.fogMode !== babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Scene"].FOGMODE_NONE) {
+            this._activeEffect.setMatrix("view", scene.getViewMatrix());
+        }
+        // Fog
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindFogParameters(scene, mesh, this._activeEffect);
+        // Log. depth
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindLogDepth(defines, this._activeEffect, scene);
+        // Water
+        if (babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialFlags"].ReflectionTextureEnabled) {
+            this._activeEffect.setTexture("refractionSampler", this._refractionRTT);
+            this._activeEffect.setTexture("reflectionSampler", this._reflectionRTT);
+        }
+        var wrvp = this._mesh.getWorldMatrix().multiply(this._reflectionTransform).multiply(scene.getProjectionMatrix());
+        // Add delta time. Prevent adding delta time if it hasn't changed.
+        var deltaTime = scene.getEngine().getDeltaTime();
+        if (deltaTime !== this._lastDeltaTime) {
+            this._lastDeltaTime = deltaTime;
+            this._lastTime += this._lastDeltaTime;
+        }
+        this._activeEffect.setMatrix("worldReflectionViewProjection", wrvp);
+        this._activeEffect.setVector2("windDirection", this.windDirection);
+        this._activeEffect.setFloat("waveLength", this.waveLength);
+        this._activeEffect.setFloat("time", this._lastTime / 100000);
+        this._activeEffect.setFloat("windForce", this.windForce);
+        this._activeEffect.setFloat("waveHeight", this.waveHeight);
+        this._activeEffect.setFloat("bumpHeight", this.bumpHeight);
+        this._activeEffect.setColor4("waterColor", this.waterColor, 1.0);
+        this._activeEffect.setFloat("colorBlendFactor", this.colorBlendFactor);
+        this._activeEffect.setColor4("waterColor2", this.waterColor2, 1.0);
+        this._activeEffect.setFloat("colorBlendFactor2", this.colorBlendFactor2);
+        this._activeEffect.setFloat("waveSpeed", this.waveSpeed);
+        // image processing
+        if (this._imageProcessingConfiguration && !this._imageProcessingConfiguration.applyByPostProcess) {
+            this._imageProcessingConfiguration.bind(this._activeEffect);
+        }
+        this._afterBind(mesh, this._activeEffect);
+    };
+    WaterMaterial.prototype._createRenderTargets = function (scene, renderTargetSize) {
+        var _this = this;
+        // Render targets
+        this._refractionRTT = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["RenderTargetTexture"](name + "_refraction", { width: renderTargetSize.x, height: renderTargetSize.y }, scene, false, true);
+        this._refractionRTT.wrapU = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Constants"].TEXTURE_MIRROR_ADDRESSMODE;
+        this._refractionRTT.wrapV = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Constants"].TEXTURE_MIRROR_ADDRESSMODE;
+        this._refractionRTT.ignoreCameraViewport = true;
+        this._reflectionRTT = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["RenderTargetTexture"](name + "_reflection", { width: renderTargetSize.x, height: renderTargetSize.y }, scene, false, true);
+        this._reflectionRTT.wrapU = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Constants"].TEXTURE_MIRROR_ADDRESSMODE;
+        this._reflectionRTT.wrapV = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Constants"].TEXTURE_MIRROR_ADDRESSMODE;
+        this._reflectionRTT.ignoreCameraViewport = true;
+        var isVisible;
+        var clipPlane = null;
+        var savedViewMatrix;
+        var mirrorMatrix = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Matrix"].Zero();
+        this._refractionRTT.onBeforeRender = function () {
+            if (_this._mesh) {
+                isVisible = _this._mesh.isVisible;
+                _this._mesh.isVisible = false;
+            }
+            // Clip plane
+            if (!_this.disableClipPlane) {
+                clipPlane = scene.clipPlane;
+                var positiony = _this._mesh ? _this._mesh.position.y : 0.0;
+                scene.clipPlane = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Plane"].FromPositionAndNormal(new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Vector3"](0, positiony + 0.05, 0), new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Vector3"](0, 1, 0));
+            }
+        };
+        this._refractionRTT.onAfterRender = function () {
+            if (_this._mesh) {
+                _this._mesh.isVisible = isVisible;
+            }
+            // Clip plane
+            if (!_this.disableClipPlane) {
+                scene.clipPlane = clipPlane;
+            }
+        };
+        this._reflectionRTT.onBeforeRender = function () {
+            if (_this._mesh) {
+                isVisible = _this._mesh.isVisible;
+                _this._mesh.isVisible = false;
+            }
+            // Clip plane
+            if (!_this.disableClipPlane) {
+                clipPlane = scene.clipPlane;
+                var positiony = _this._mesh ? _this._mesh.position.y : 0.0;
+                scene.clipPlane = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Plane"].FromPositionAndNormal(new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Vector3"](0, positiony - 0.05, 0), new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Vector3"](0, -1, 0));
+                babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Matrix"].ReflectionToRef(scene.clipPlane, mirrorMatrix);
+            }
+            // Transform
+            savedViewMatrix = scene.getViewMatrix();
+            mirrorMatrix.multiplyToRef(savedViewMatrix, _this._reflectionTransform);
+            scene.setTransformMatrix(_this._reflectionTransform, scene.getProjectionMatrix());
+            scene.getEngine().cullBackFaces = false;
+            scene._mirroredCameraPosition = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Vector3"].TransformCoordinates(scene.activeCamera.position, mirrorMatrix);
+        };
+        this._reflectionRTT.onAfterRender = function () {
+            if (_this._mesh) {
+                _this._mesh.isVisible = isVisible;
+            }
+            // Clip plane
+            scene.clipPlane = clipPlane;
+            // Transform
+            scene.setTransformMatrix(savedViewMatrix, scene.getProjectionMatrix());
+            scene.getEngine().cullBackFaces = true;
+            scene._mirroredCameraPosition = null;
+        };
+    };
+    WaterMaterial.prototype.getAnimatables = function () {
+        var results = [];
+        if (this.bumpTexture && this.bumpTexture.animations && this.bumpTexture.animations.length > 0) {
+            results.push(this.bumpTexture);
+        }
+        if (this._reflectionRTT && this._reflectionRTT.animations && this._reflectionRTT.animations.length > 0) {
+            results.push(this._reflectionRTT);
+        }
+        if (this._refractionRTT && this._refractionRTT.animations && this._refractionRTT.animations.length > 0) {
+            results.push(this._refractionRTT);
+        }
+        return results;
+    };
+    WaterMaterial.prototype.getActiveTextures = function () {
+        var activeTextures = _super.prototype.getActiveTextures.call(this);
+        if (this._bumpTexture) {
+            activeTextures.push(this._bumpTexture);
+        }
+        return activeTextures;
+    };
+    WaterMaterial.prototype.hasTexture = function (texture) {
+        if (_super.prototype.hasTexture.call(this, texture)) {
+            return true;
+        }
+        if (this._bumpTexture === texture) {
+            return true;
+        }
+        return false;
+    };
+    WaterMaterial.prototype.dispose = function (forceDisposeEffect) {
+        if (this.bumpTexture) {
+            this.bumpTexture.dispose();
+        }
+        var index = this.getScene().customRenderTargets.indexOf(this._refractionRTT);
+        if (index != -1) {
+            this.getScene().customRenderTargets.splice(index, 1);
+        }
+        index = -1;
+        index = this.getScene().customRenderTargets.indexOf(this._reflectionRTT);
+        if (index != -1) {
+            this.getScene().customRenderTargets.splice(index, 1);
+        }
+        if (this._reflectionRTT) {
+            this._reflectionRTT.dispose();
+        }
+        if (this._refractionRTT) {
+            this._refractionRTT.dispose();
+        }
+        // Remove image-processing observer
+        if (this._imageProcessingConfiguration && this._imageProcessingObserver) {
+            this._imageProcessingConfiguration.onUpdateParameters.remove(this._imageProcessingObserver);
+        }
+        _super.prototype.dispose.call(this, forceDisposeEffect);
+    };
+    WaterMaterial.prototype.clone = function (name) {
+        var _this = this;
+        return babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Clone(function () { return new WaterMaterial(name, _this.getScene()); }, this);
+    };
+    WaterMaterial.prototype.serialize = function () {
+        var serializationObject = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Serialize(this);
+        serializationObject.customType = "BABYLON.WaterMaterial";
+        serializationObject.renderList = [];
+        if (this._refractionRTT && this._refractionRTT.renderList) {
+            for (var i = 0; i < this._refractionRTT.renderList.length; i++) {
+                serializationObject.renderList.push(this._refractionRTT.renderList[i].id);
+            }
+        }
+        return serializationObject;
+    };
+    WaterMaterial.prototype.getClassName = function () {
+        return "WaterMaterial";
+    };
+    // Statics
+    WaterMaterial.Parse = function (source, scene, rootUrl) {
+        var mat = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new WaterMaterial(source.name, scene); }, source, scene, rootUrl);
+        mat._waitingRenderList = source.renderList;
+        return mat;
+    };
+    WaterMaterial.CreateDefaultMesh = function (name, scene) {
+        var mesh = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Mesh"].CreateGround(name, 512, 512, 32, scene, false);
+        return mesh;
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsTexture"])("bumpTexture")
+    ], WaterMaterial.prototype, "_bumpTexture", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsTexturesDirty")
+    ], WaterMaterial.prototype, "bumpTexture", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], WaterMaterial.prototype, "diffuseColor", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], WaterMaterial.prototype, "specularColor", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], WaterMaterial.prototype, "specularPower", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("disableLighting")
+    ], WaterMaterial.prototype, "_disableLighting", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsLightsDirty")
+    ], WaterMaterial.prototype, "disableLighting", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("maxSimultaneousLights")
+    ], WaterMaterial.prototype, "_maxSimultaneousLights", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsLightsDirty")
+    ], WaterMaterial.prototype, "maxSimultaneousLights", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], WaterMaterial.prototype, "windForce", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsVector2"])()
+    ], WaterMaterial.prototype, "windDirection", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], WaterMaterial.prototype, "waveHeight", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], WaterMaterial.prototype, "bumpHeight", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("bumpSuperimpose")
+    ], WaterMaterial.prototype, "_bumpSuperimpose", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsMiscDirty")
+    ], WaterMaterial.prototype, "bumpSuperimpose", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("fresnelSeparate")
+    ], WaterMaterial.prototype, "_fresnelSeparate", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsMiscDirty")
+    ], WaterMaterial.prototype, "fresnelSeparate", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])("bumpAffectsReflection")
+    ], WaterMaterial.prototype, "_bumpAffectsReflection", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsMiscDirty")
+    ], WaterMaterial.prototype, "bumpAffectsReflection", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], WaterMaterial.prototype, "waterColor", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], WaterMaterial.prototype, "colorBlendFactor", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], WaterMaterial.prototype, "waterColor2", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], WaterMaterial.prototype, "colorBlendFactor2", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], WaterMaterial.prototype, "waveLength", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], WaterMaterial.prototype, "waveSpeed", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], WaterMaterial.prototype, "disableClipPlane", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], WaterMaterial.prototype, "useLogarithmicDepth", null);
+    return WaterMaterial;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PushMaterial"]));
+
+babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.WaterMaterial"] = WaterMaterial;
+>>>>>>> Stashed changes
 
 
 /***/ }),

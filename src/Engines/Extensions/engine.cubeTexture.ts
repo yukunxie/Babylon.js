@@ -245,7 +245,8 @@ ThinEngine.prototype.createCubeTexture = function(rootUrl: string, scene: Nullab
         rootUrl = loader.transformUrl(rootUrl, this._textureFormatInUse);
 
         const onloaddata = (data: any) => {
-            this._bindTextureDirectly(gl.TEXTURE_CUBE_MAP, texture, true);
+            console.log("xxxxxxxxxxxxxxx createCubeTexture onloaddata");
+            // this._bindTextureDirectly(gl.TEXTURE_CUBE_MAP, texture, true);
             loader!.loadCubeData(data, texture, createPolynomials, onLoad, onError);
         };
         if (files && files.length === 6) {

@@ -2802,6 +2802,7 @@ export class ThinEngine {
         var url = String(urlArg); // assign a new string, so that the original is still available in case of fallback
         var fromData = url.substr(0, 5) === "data:";
         var fromBlob = url.substr(0, 5) === "blob:";
+        fromBlob;
         var isBase64 = fromData && url.indexOf(";base64,") !== -1;
 
         let texture = fallback ? fallback : new InternalTexture(this, InternalTextureSource.Url);
@@ -2881,10 +2882,13 @@ export class ThinEngine {
                     if (loadFailed) {
                         onInternalError("TextureLoader failed to load data");
                     } else {
-                        this._prepareWebGLTexture(texture, scene, width, height, texture.invertY, !loadMipmap, isCompressed, () => {
-                            done();
-                            return false;
-                        }, samplingMode);
+                        console.log("xxxxxxxxxxxxxxxx loadData done.");
+                        done();
+                        this._prepareWebGLTexture;
+                        // this._prepareWebGLTexture(texture, scene, width, height, texture.invertY, !loadMipmap, isCompressed, () => {
+                        //     done();
+                        //     return false;
+                        // }, samplingMode);
                     }
                 });
             };
@@ -2905,57 +2909,78 @@ export class ThinEngine {
                 }
             }
         } else {
+<<<<<<< Updated upstream
             var onload = (img: HTMLImageElement) => {
                 if (fromBlob && !this._doNotHandleContextLost) {
                     // We need to store the image if we need to rebuild the texture
                     // in case of a webgl context lost
                     texture._buffer = img;
+=======
+            var onload = (img: HTMLImageElement | ImageBitmap) => {
+                // texture.imageData = null;
+                texture.width = img.width;
+                texture.height = img.height;
+                texture.imageData = img._data;
+                texture.isReady = true;
+
+                if (onLoad)
+                {
+                    onLoad();
+>>>>>>> Stashed changes
                 }
 
-                this._prepareWebGLTexture(texture, scene, img.width, img.height, texture.invertY, noMipmap, false, (potWidth, potHeight, continuationCallback) => {
-                    let gl = this._gl;
-                    var isPot = (img.width === potWidth && img.height === potHeight);
-                    let internalFormat = format ? this._getInternalFormat(format) : ((extension === ".jpg") ? gl.RGB : gl.RGBA);
+                // console.log("xxxxxxxxxxxxxxx xxxxxxxxxxxxxxx ThinEngine.createTexture onLoad", img instanceof HTMLImageElement, img instanceof ImageBitmap);
 
-                    if (isPot) {
-                        gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, internalFormat, gl.UNSIGNED_BYTE, img);
-                        return false;
-                    }
+                // if (fromBlob && !this._doNotHandleContextLost) {
+                //     // We need to store the image if we need to rebuild the texture
+                //     // in case of a webgl context lost
+                //     texture._buffer = img;
+                // }
 
-                    let maxTextureSize = this._caps.maxTextureSize;
+                // this._prepareWebGLTexture(texture, scene, img.width, img.height, texture.invertY, noMipmap, false, (potWidth, potHeight, continuationCallback) => {
+                //     let gl = this._gl;
+                //     var isPot = (img.width === potWidth && img.height === potHeight);
+                //     let internalFormat = format ? this._getInternalFormat(format) : ((extension === ".jpg") ? gl.RGB : gl.RGBA);
 
-                    if (img.width > maxTextureSize || img.height > maxTextureSize || !this._supportsHardwareTextureRescaling) {
-                        this._prepareWorkingCanvas();
-                        if (!this._workingCanvas || !this._workingContext) {
-                            return false;
-                        }
+                //     if (isPot) {
+                //         gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, internalFormat, gl.UNSIGNED_BYTE, img);
+                //         return false;
+                //     }
 
-                        this._workingCanvas.width = potWidth;
-                        this._workingCanvas.height = potHeight;
+                //     let maxTextureSize = this._caps.maxTextureSize;
 
-                        this._workingContext.drawImage(img, 0, 0, img.width, img.height, 0, 0, potWidth, potHeight);
-                        gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, internalFormat, gl.UNSIGNED_BYTE, this._workingCanvas);
+                //     if (img.width > maxTextureSize || img.height > maxTextureSize || !this._supportsHardwareTextureRescaling) {
+                //         this._prepareWorkingCanvas();
+                //         if (!this._workingCanvas || !this._workingContext) {
+                //             return false;
+                //         }
 
-                        texture.width = potWidth;
-                        texture.height = potHeight;
+                //         this._workingCanvas.width = potWidth;
+                //         this._workingCanvas.height = potHeight;
 
-                        return false;
-                    } else {
-                        // Using shaders when possible to rescale because canvas.drawImage is lossy
-                        let source = new InternalTexture(this, InternalTextureSource.Temp);
-                        this._bindTextureDirectly(gl.TEXTURE_2D, source, true);
-                        gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, internalFormat, gl.UNSIGNED_BYTE, img);
+                //         this._workingContext.drawImage(img, 0, 0, img.width, img.height, 0, 0, potWidth, potHeight);
+                //         gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, internalFormat, gl.UNSIGNED_BYTE, this._workingCanvas);
 
-                        this._rescaleTexture(source, texture, scene, internalFormat, () => {
-                            this._releaseTexture(source);
-                            this._bindTextureDirectly(gl.TEXTURE_2D, texture, true);
+                //         texture.width = potWidth;
+                //         texture.height = potHeight;
 
-                            continuationCallback();
-                        });
-                    }
+                //         return false;
+                //     } else {
+                //         // Using shaders when possible to rescale because canvas.drawImage is lossy
+                //         let source = new InternalTexture(this, InternalTextureSource.Temp);
+                //         this._bindTextureDirectly(gl.TEXTURE_2D, source, true);
+                //         gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, internalFormat, gl.UNSIGNED_BYTE, img);
 
-                    return true;
-                }, samplingMode);
+                //         this._rescaleTexture(source, texture, scene, internalFormat, () => {
+                //             this._releaseTexture(source);
+                //             this._bindTextureDirectly(gl.TEXTURE_2D, texture, true);
+
+                //             continuationCallback();
+                //         });
+                //     }
+
+                //     return true;
+                // }, samplingMode);
             };
 
             if (!fromData || isBase64) {
@@ -3246,25 +3271,37 @@ export class ThinEngine {
 
     /** @hidden */
     public _uploadDataToTextureDirectly(texture: InternalTexture, imageData: ArrayBufferView, faceIndex: number = 0, lod: number = 0, babylonInternalFormat?: number, useTextureWidthAndHeight = false): void {
-        var gl = this._gl;
+        // var gl = this._gl;
 
+<<<<<<< Updated upstream
         var textureType = this._getWebGLTextureType(texture.type);
         var format = this._getInternalFormat(texture.format);
         var internalFormat = babylonInternalFormat === undefined ? this._getRGBABufferInternalSizedFormat(texture.type, format) : this._getInternalFormat(babylonInternalFormat);
+=======
+        texture.imageData = new Uint8Array(imageData.buffer);
+        faceIndex;
+        lod;
+        babylonInternalFormat;
+        useTextureWidthAndHeight;
+>>>>>>> Stashed changes
 
-        this._unpackFlipY(texture.invertY);
+        // var textureType = this._getWebGLTextureType(texture.type);
+        // var format = this._getInternalFormat(texture.format);
+        // var internalFormat = babylonInternalFormat === undefined ? this._getRGBABufferInternalSizedFormat(texture.type, texture.format) : this._getInternalFormat(babylonInternalFormat);
 
-        var target = gl.TEXTURE_2D;
-        if (texture.isCube) {
-            target = gl.TEXTURE_CUBE_MAP_POSITIVE_X + faceIndex;
-        }
+        // this._unpackFlipY(texture.invertY);
 
-        const lodMaxWidth = Math.round(Math.log(texture.width) * Math.LOG2E);
-        const lodMaxHeight = Math.round(Math.log(texture.height) * Math.LOG2E);
-        const width = useTextureWidthAndHeight ? texture.width : Math.pow(2, Math.max(lodMaxWidth - lod, 0));
-        const height = useTextureWidthAndHeight ? texture.height : Math.pow(2, Math.max(lodMaxHeight - lod, 0));
+        // var target = gl.TEXTURE_2D;
+        // if (texture.isCube) {
+        //     target = gl.TEXTURE_CUBE_MAP_POSITIVE_X + faceIndex;
+        // }
 
-        gl.texImage2D(target, lod, internalFormat, width, height, 0, format, textureType, imageData);
+        // const lodMaxWidth = Math.round(Math.log(texture.width) * Math.LOG2E);
+        // const lodMaxHeight = Math.round(Math.log(texture.height) * Math.LOG2E);
+        // const width = useTextureWidthAndHeight ? texture.width : Math.pow(2, Math.max(lodMaxWidth - lod, 0));
+        // const height = useTextureWidthAndHeight ? texture.height : Math.pow(2, Math.max(lodMaxHeight - lod, 0));
+
+        // gl.texImage2D(target, lod, internalFormat, width, height, 0, format, textureType, imageData);
     }
 
     /** @hidden */

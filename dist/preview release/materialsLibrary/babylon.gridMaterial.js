@@ -97,9 +97,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../node_modules/tslib/tslib.es6.js":
+<<<<<<< Updated upstream
 /*!***********************************************************!*\
   !*** C:/Repos/Babylon.js/node_modules/tslib/tslib.es6.js ***!
   \***********************************************************/
+=======
+/*!*************************************************************************!*\
+  !*** /Volumes/RealDisk/Work/Babylon.js/node_modules/tslib/tslib.es6.js ***!
+  \*************************************************************************/
+>>>>>>> Stashed changes
 /*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -421,6 +427,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _grid_fragment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./grid.fragment */ "./grid/grid.fragment.ts");
 /* harmony import */ var _grid_vertex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./grid.vertex */ "./grid/grid.vertex.ts");
+<<<<<<< Updated upstream
 
 
 
@@ -667,6 +674,254 @@ var GridMaterial = /** @class */ (function (_super) {
 }(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PushMaterial"]));
 
 babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.GridMaterial"] = GridMaterial;
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+var GridMaterialDefines = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(GridMaterialDefines, _super);
+    function GridMaterialDefines() {
+        var _this = _super.call(this) || this;
+        _this.OPACITY = false;
+        _this.TRANSPARENT = false;
+        _this.FOG = false;
+        _this.PREMULTIPLYALPHA = false;
+        _this.UV1 = false;
+        _this.UV2 = false;
+        _this.INSTANCES = false;
+        _this.rebuild();
+        return _this;
+    }
+    return GridMaterialDefines;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialDefines"]));
+/**
+ * The grid materials allows you to wrap any shape with a grid.
+ * Colors are customizable.
+ */
+var GridMaterial = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(GridMaterial, _super);
+    /**
+     * constructor
+     * @param name The name given to the material in order to identify it afterwards.
+     * @param scene The scene the material is used in.
+     */
+    function GridMaterial(name, scene) {
+        var _this = _super.call(this, name, scene) || this;
+        /**
+         * Main color of the grid (e.g. between lines)
+         */
+        _this.mainColor = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"].Black();
+        /**
+         * Color of the grid lines.
+         */
+        _this.lineColor = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Color3"].Teal();
+        /**
+         * The scale of the grid compared to unit.
+         */
+        _this.gridRatio = 1.0;
+        /**
+         * Allows setting an offset for the grid lines.
+         */
+        _this.gridOffset = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Vector3"].Zero();
+        /**
+         * The frequency of thicker lines.
+         */
+        _this.majorUnitFrequency = 10;
+        /**
+         * The visibility of minor units in the grid.
+         */
+        _this.minorUnitVisibility = 0.33;
+        /**
+         * The grid opacity outside of the lines.
+         */
+        _this.opacity = 1.0;
+        /**
+         * Determine RBG output is premultiplied by alpha value.
+         */
+        _this.preMultiplyAlpha = false;
+        _this._gridControl = new babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["Vector4"](_this.gridRatio, _this.majorUnitFrequency, _this.minorUnitVisibility, _this.opacity);
+        return _this;
+    }
+    /**
+     * Returns wehter or not the grid requires alpha blending.
+     */
+    GridMaterial.prototype.needAlphaBlending = function () {
+        return this.opacity < 1.0 || this._opacityTexture && this._opacityTexture.isReady();
+    };
+    GridMaterial.prototype.needAlphaBlendingForMesh = function (mesh) {
+        return this.needAlphaBlending();
+    };
+    GridMaterial.prototype.isReadyForSubMesh = function (mesh, subMesh, useInstances) {
+        if (this.isFrozen) {
+            if (subMesh.effect && subMesh.effect._wasPreviouslyReady) {
+                return true;
+            }
+        }
+        if (!subMesh._materialDefines) {
+            subMesh._materialDefines = new GridMaterialDefines();
+        }
+        var defines = subMesh._materialDefines;
+        var scene = this.getScene();
+        if (!this.checkReadyOnEveryCall && subMesh.effect) {
+            if (this._renderId === scene.getRenderId()) {
+                return true;
+            }
+        }
+        if (defines.TRANSPARENT !== (this.opacity < 1.0)) {
+            defines.TRANSPARENT = !defines.TRANSPARENT;
+            defines.markAsUnprocessed();
+        }
+        if (defines.PREMULTIPLYALPHA != this.preMultiplyAlpha) {
+            defines.PREMULTIPLYALPHA = !defines.PREMULTIPLYALPHA;
+            defines.markAsUnprocessed();
+        }
+        // Textures
+        if (defines._areTexturesDirty) {
+            defines._needUVs = false;
+            if (scene.texturesEnabled) {
+                if (this._opacityTexture && babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialFlags"].OpacityTextureEnabled) {
+                    if (!this._opacityTexture.isReady()) {
+                        return false;
+                    }
+                    else {
+                        defines._needUVs = true;
+                        defines.OPACITY = true;
+                    }
+                }
+            }
+        }
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForMisc(mesh, scene, false, false, this.fogEnabled, false, defines);
+        // Values that need to be evaluated on every frame
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForFrameBoundValues(scene, scene.getEngine(), defines, !!useInstances);
+        // Get correct effect
+        if (defines.isDirty) {
+            defines.markAsProcessed();
+            scene.resetCachedMaterial();
+            // Attributes
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareDefinesForAttributes(mesh, defines, false, false);
+            var attribs = [babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].PositionKind, babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].NormalKind];
+            if (defines.UV1) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].UVKind);
+            }
+            if (defines.UV2) {
+                attribs.push(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["VertexBuffer"].UV2Kind);
+            }
+            babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].PrepareAttributesForInstances(attribs, defines);
+            // Defines
+            var join = defines.toString();
+            subMesh.setEffect(scene.getEngine().createEffect("grid", attribs, ["projection", "mainColor", "lineColor", "gridControl", "gridOffset", "vFogInfos", "vFogColor", "world", "view",
+                "opacityMatrix", "vOpacityInfos"], ["opacitySampler"], join, undefined, this.onCompiled, this.onError), defines);
+        }
+        if (!subMesh.effect || !subMesh.effect.isReady()) {
+            return false;
+        }
+        this._renderId = scene.getRenderId();
+        subMesh.effect._wasPreviouslyReady = true;
+        return true;
+    };
+    GridMaterial.prototype.bindForSubMesh = function (world, mesh, subMesh) {
+        var scene = this.getScene();
+        var defines = subMesh._materialDefines;
+        if (!defines) {
+            return;
+        }
+        var effect = subMesh.effect;
+        if (!effect) {
+            return;
+        }
+        this._activeEffect = effect;
+        // Matrices
+        if (!defines.INSTANCES) {
+            this.bindOnlyWorldMatrix(world);
+        }
+        this._activeEffect.setMatrix("view", scene.getViewMatrix());
+        this._activeEffect.setMatrix("projection", scene.getProjectionMatrix());
+        // Uniforms
+        if (this._mustRebind(scene, effect)) {
+            this._activeEffect.setColor3("mainColor", this.mainColor);
+            this._activeEffect.setColor3("lineColor", this.lineColor);
+            this._activeEffect.setVector3("gridOffset", this.gridOffset);
+            this._gridControl.x = this.gridRatio;
+            this._gridControl.y = Math.round(this.majorUnitFrequency);
+            this._gridControl.z = this.minorUnitVisibility;
+            this._gridControl.w = this.opacity;
+            this._activeEffect.setVector4("gridControl", this._gridControl);
+            if (this._opacityTexture && babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialFlags"].OpacityTextureEnabled) {
+                this._activeEffect.setTexture("opacitySampler", this._opacityTexture);
+                this._activeEffect.setFloat2("vOpacityInfos", this._opacityTexture.coordinatesIndex, this._opacityTexture.level);
+                this._activeEffect.setMatrix("opacityMatrix", this._opacityTexture.getTextureMatrix());
+            }
+        }
+        // Fog
+        babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["MaterialHelper"].BindFogParameters(scene, mesh, this._activeEffect);
+        this._afterBind(mesh, this._activeEffect);
+    };
+    /**
+     * Dispose the material and its associated resources.
+     * @param forceDisposeEffect will also dispose the used effect when true
+     */
+    GridMaterial.prototype.dispose = function (forceDisposeEffect) {
+        _super.prototype.dispose.call(this, forceDisposeEffect);
+    };
+    GridMaterial.prototype.clone = function (name) {
+        var _this = this;
+        return babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Clone(function () { return new GridMaterial(name, _this.getScene()); }, this);
+    };
+    GridMaterial.prototype.serialize = function () {
+        var serializationObject = babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Serialize(this);
+        serializationObject.customType = "BABYLON.GridMaterial";
+        return serializationObject;
+    };
+    GridMaterial.prototype.getClassName = function () {
+        return "GridMaterial";
+    };
+    GridMaterial.Parse = function (source, scene, rootUrl) {
+        return babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["SerializationHelper"].Parse(function () { return new GridMaterial(source.name, scene); }, source, scene, rootUrl);
+    };
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], GridMaterial.prototype, "mainColor", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], GridMaterial.prototype, "lineColor", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], GridMaterial.prototype, "gridRatio", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsColor3"])()
+    ], GridMaterial.prototype, "gridOffset", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], GridMaterial.prototype, "majorUnitFrequency", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], GridMaterial.prototype, "minorUnitVisibility", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], GridMaterial.prototype, "opacity", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serialize"])()
+    ], GridMaterial.prototype, "preMultiplyAlpha", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["serializeAsTexture"])("opacityTexture")
+    ], GridMaterial.prototype, "_opacityTexture", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["expandToProperty"])("_markAllSubMeshesAsTexturesDirty")
+    ], GridMaterial.prototype, "opacityTexture", void 0);
+    return GridMaterial;
+}(babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["PushMaterial"]));
+
+babylonjs_Misc_decorators__WEBPACK_IMPORTED_MODULE_1__["_TypeStore"].RegisteredTypes["BABYLON.GridMaterial"] = GridMaterial;
+>>>>>>> Stashed changes
 
 
 /***/ }),
